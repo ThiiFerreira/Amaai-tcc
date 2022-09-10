@@ -17,7 +17,7 @@ namespace UsuariosApi.Models
             Destinatario = new List<MailboxAddress>();
             Destinatario.AddRange(destinatario.Select(d => new MailboxAddress(d)));
             Assunto = assunto;
-            Conteudo = $"CODIGO DE VERIFICAÇÃO : {codigo}";
+            Conteudo = $"CODIGO DE VERIFICACAO : {codigo}";
         }
     }
 }
