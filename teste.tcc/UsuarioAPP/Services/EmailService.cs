@@ -54,7 +54,7 @@ namespace UsuariosApi.Services
         {
             var mensagemDeEmail = new MimeMessage();
             mensagemDeEmail.From.Add(new MailboxAddress(
-                _configuration.GetValue<string>("EmailSettings:From")));
+                _configuration.GetValue<string>("equipeamaai@gmail.com")));
             mensagemDeEmail.To.AddRange(mensagem.Destinatario);
             mensagemDeEmail.Subject = mensagem.Assunto;
             mensagemDeEmail.Body = new TextPart(MimeKit.Text.TextFormat.Text)
