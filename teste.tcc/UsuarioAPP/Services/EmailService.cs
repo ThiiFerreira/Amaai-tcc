@@ -53,7 +53,7 @@ namespace UsuariosApi.Services
         private MimeMessage CriaCorpoDoEmail(Mensagem mensagem)
         {
             var mensagemDeEmail = new MimeMessage();
-            mensagemDeEmail.From.Add(new MailboxAddress("EmailSettings:From"));
+            mensagemDeEmail.From.Add(new MailboxAddress("equipeamaai@gmail.com"));
             mensagemDeEmail.To.AddRange(mensagem.Destinatario);
             mensagemDeEmail.Subject = mensagem.Assunto;
             mensagemDeEmail.Body = new TextPart(MimeKit.Text.TextFormat.Text)
