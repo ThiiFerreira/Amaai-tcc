@@ -62,7 +62,7 @@ namespace UsuariosApi.Services
                     _usuarioService.Usuario.Add(usuario);
                     _usuarioService.SaveChanges();
 
-                    return Result.Ok().WithSuccess(code);
+                    return Result.Ok().WithSuccess(code+usuario.Id);
                 }
             }catch (Exception e)
             {
