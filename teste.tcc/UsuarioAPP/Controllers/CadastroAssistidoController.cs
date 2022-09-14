@@ -21,7 +21,7 @@ namespace APP.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "responsavel")]
+        //[Authorize(Roles = "responsavel")]
         public IActionResult CadastraAssistido(CreateUsuarioAssistido createDto)
         {
             Result resultado = _assistidoService.CadastraAssistido(createDto);
