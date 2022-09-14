@@ -33,7 +33,10 @@ namespace APP.Services
             {
                 var username = _usuarioService.UsuarioAssistido.FirstOrDefault(usuario => usuario.Username == createDto.Username);
                 if (username != null) return Result.Fail("Falha ao cadastra usuario assistido: Username já existe");
-                
+
+                var usernameResponsavel = _usuarioService.Usuario.FirstOrDefault(usuario => usuario.Username == createDto.Username);
+                if (usernameResponsavel != null) return Result.Fail("Falha ao cadastra usuario: Username já existe");
+
                 var cpf = _usuarioService.UsuarioAssistido.FirstOrDefault(usuario => usuario.Cpf == createDto.Cpf);
                 if (cpf != null) return Result.Fail("Falha ao cadastra usuario assistido: CPF já existe");
 

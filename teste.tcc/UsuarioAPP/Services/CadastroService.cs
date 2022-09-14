@@ -42,6 +42,10 @@ namespace UsuariosApi.Services
             {              
                 var username = _usuarioService.Usuario.FirstOrDefault(usuario => usuario.Username == createDto.Username);
                 if (username != null) return Result.Fail("Falha ao cadastra usuario: Username já existe");
+
+                var usernameAssistido = _usuarioService.UsuarioAssistido.FirstOrDefault(usuario => usuario.Username == createDto.Username);
+                if (username != null) return Result.Fail("Falha ao cadastra usuario: Username já existe");
+
                 var cpf = _usuarioService.Usuario.FirstOrDefault(usuario => usuario.Cpf == createDto.Cpf);
                 if (cpf != null) return Result.Fail("Falha ao cadastra usuario: CPF já existe");
                 var email = _usuarioService.Usuario.FirstOrDefault(usuario => usuario.Email == createDto.Email);
