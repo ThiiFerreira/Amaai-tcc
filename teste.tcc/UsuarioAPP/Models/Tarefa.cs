@@ -17,6 +17,7 @@ namespace UsuariosApi.Models
         public string Descricao { get; set; }
 
         public string DataCriacao { get; set; }
+        public string HoraAlerta { get; set; }
 
         public string DataAlerta { get; set; }
 

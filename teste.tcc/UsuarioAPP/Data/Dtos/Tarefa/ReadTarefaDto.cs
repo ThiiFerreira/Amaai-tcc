@@ -14,6 +14,8 @@ namespace UsuariosApi.Data.Dtos.Tarefa
 
         public string DataCriacao { get; set; }
 
+        public string HoraAlerta { get; set; }
+
         public string DataAlerta { get; set; }
 
         public string DataFinalizacao { get; set; }

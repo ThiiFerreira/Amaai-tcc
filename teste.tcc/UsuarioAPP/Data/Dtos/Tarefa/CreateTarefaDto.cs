@@ -10,7 +10,7 @@ namespace UsuariosApi.Data.Dtos.Tarefa
     {
         [Required]
         public string Descricao { get; set; }
-
+        public string HoraAlerta { get; set; }
         public string DataAlerta { get; set; }
 
     }
