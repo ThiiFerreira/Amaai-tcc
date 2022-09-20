@@ -79,21 +79,21 @@ namespace UsuariosApi.Migrations
                         new
                         {
                             Id = 9999,
-                            ConcurrencyStamp = "cb94df10-27d3-4fd0-9ad0-310fc2bfa7e8",
+                            ConcurrencyStamp = "906a4422-fe7b-4986-8740-47fac72852c4",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 9997,
-                            ConcurrencyStamp = "0375ef6b-7b68-4a3e-99e8-9d5f7194f4f6",
+                            ConcurrencyStamp = "65ec5e62-6d2d-44b1-a94d-81e0f8c1ba3b",
                             Name = "responsavel",
                             NormalizedName = "RESPONSAVEL"
                         },
                         new
                         {
                             Id = 9996,
-                            ConcurrencyStamp = "a8c94ef2-606e-412f-adbb-871a21bf5240",
+                            ConcurrencyStamp = "87344664-2441-41d0-a008-005721e2ec23",
                             Name = "idoso",
                             NormalizedName = "IDOSO"
                         });
@@ -190,15 +190,15 @@ namespace UsuariosApi.Migrations
                         {
                             Id = 9999,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "72363113-7b2a-4eb3-951b-72d2c1bd16b3",
+                            ConcurrencyStamp = "b113a8db-5932-4f7d-9c2a-c474e73840be",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEM7YDDoaNNI+ETBn/Yg4Alag9j6dq7WBExJ8kyUbYU2U3n5ELW8FH8e55OnrZCvbIg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEG+LYZk3FPDEwA4CLhTQEjTFqLb3h6giR6rndE7OWu9peoqMAYnV2yCRweRji82vKQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d996fde8-7b01-4c1a-875d-a4e578a091c0",
+                            SecurityStamp = "9b900ea6-cba5-4e6f-be07-6c953f599afc",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
@@ -294,10 +294,13 @@ namespace UsuariosApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("DataFinal")
+                    b.Property<string>("DataAlerta")
                         .HasColumnType("text");
 
-                    b.Property<string>("DataInicio")
+                    b.Property<string>("DataCriacao")
+                        .HasColumnType("text");
+
+                    b.Property<string>("DataFinalizacao")
                         .HasColumnType("text");
 
                     b.Property<string>("Descricao")

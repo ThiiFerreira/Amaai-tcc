@@ -11,9 +11,7 @@ namespace UsuariosApi.Data.Dtos.Tarefa
         [Required]
         public string Descricao { get; set; }
 
-        public string DataInicio { get; set; }
-
-        public string DataFinal { get; set; }
+        public string DataAlerta { get; set; }
 
     }
 }

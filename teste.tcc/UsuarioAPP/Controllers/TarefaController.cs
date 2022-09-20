@@ -17,11 +17,9 @@ namespace UsuariosApi.Controllers
     public class TarefaController : ControllerBase
     {
         private TarefaService _tarefaService;
-        private TarefaServiceArray  _tarefaServiceArray;
-        public TarefaController(TarefaService tarefaService, TarefaServiceArray tarefaServiceArray)
+        public TarefaController(TarefaService tarefaService)
         {
             _tarefaService = tarefaService;
-            _tarefaServiceArray = tarefaServiceArray;
         }
 
         [HttpPost]

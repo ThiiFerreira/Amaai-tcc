@@ -29,6 +29,7 @@ namespace UsuariosApi.Services
             var tarefa = _mapper.Map<Tarefa>(createTarefaDto);
             tarefa.ResponsavelId = usuarioId;
             tarefa.IdosoId = _assistido.Id;
+            tarefa.DataCriacao = DateTime.Now.ToString();
             _context.Tarefa.Add(tarefa);
             _context.SaveChanges();
             return _mapper.Map<ReadTarefaDto>(tarefa);
