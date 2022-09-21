@@ -50,10 +50,11 @@ namespace UsuariosApi.Services
         public List<ReadTarefaDto> RecuperaTarefa(int usuarioId)
         {
             List<Tarefa> list = _context.Tarefa.Where(tarefa => (tarefa.IdosoId == usuarioId || tarefa.ResponsavelId == usuarioId)).ToList();
+            var listOrdenada = list.OrderBy(x => x.DataAlerta).ThenBy(x => x.HoraAlerta);
 
             if (list != null)
             {
-                return _mapper.Map<List<ReadTarefaDto>>(list);
+                return _mapper.Map<List<ReadTarefaDto>>(listOrdenada);
             }
             return null;
         }
