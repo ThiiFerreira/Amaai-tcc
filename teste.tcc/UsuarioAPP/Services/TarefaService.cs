@@ -66,7 +66,7 @@ namespace UsuariosApi.Services
             {
                 return Result.Fail("Tarefa não encontrada");
             }
-            createTarefaDto.Descricao.ToUpper();
+            createTarefaDto.Descricao = createTarefaDto.Descricao.ToUpper();
             _mapper.Map(createTarefaDto, tarefa);
             _context.SaveChanges();
             return Result.Ok();
