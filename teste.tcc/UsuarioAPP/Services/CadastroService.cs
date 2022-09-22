@@ -41,15 +41,15 @@ namespace UsuariosApi.Services
             try
             {              
                 var username = _usuarioService.Usuario.FirstOrDefault(usuario => usuario.Username == createDto.Username);
-                if (username != null) return Result.Fail("Falha ao cadastra usuario: Username já existe");
+                if (username != null) return Result.Fail("Username já existe");
 
                 var usernameAssistido = _usuarioService.UsuarioAssistido.FirstOrDefault(usuario => usuario.Username == createDto.Username);
-                if (username != null) return Result.Fail("Falha ao cadastra usuario: Username já existe");
+                if (username != null) return Result.Fail("Username já existe");
 
                 var cpf = _usuarioService.Usuario.FirstOrDefault(usuario => usuario.Cpf == createDto.Cpf);
-                if (cpf != null) return Result.Fail("Falha ao cadastra usuario: CPF já existe");
+                if (cpf != null) return Result.Fail("CPF já existe");
                 var email = _usuarioService.Usuario.FirstOrDefault(usuario => usuario.Email == createDto.Email);
-                if (email != null) return Result.Fail("Falha ao cadastra usuario: Email já existe");
+                if (email != null) return Result.Fail("Email já existe");
                 
 
                 IdentityUser<int> usuarioIdentity = _mapper.Map<IdentityUser<int>>(usuario);
@@ -74,6 +74,20 @@ namespace UsuariosApi.Services
             }
 
             //return Result.Fail("Falha ao cadastrar usuário : A senha deve conter pelo menos UMA LETRA MAIÚSCULA, UM NUMERO E UM CARACTER ESPECIAL");
+            var erro = resultadoIdentity.Result.ToString();
+            if ()
+            {
+
+            }
+            else if (erro.Contains("Password"))
+            {
+                return Result.Fail("Senha deve conter 1 Letra maiúscula, 1 caracter especial e 1 número");
+            }
+            else if (erro.Contains("UserName"))
+            {
+                return Result.Fail("Username invalido");
+
+            }
             return Result.Fail(resultadoIdentity.Result.ToString());
         }
 
