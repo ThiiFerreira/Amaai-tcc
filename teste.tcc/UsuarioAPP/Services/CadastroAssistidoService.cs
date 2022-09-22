@@ -32,16 +32,16 @@ namespace APP.Services
             try
             {
                 var username = _usuarioService.UsuarioAssistido.FirstOrDefault(usuario => usuario.Username == createDto.Username);
-                if (username != null) return Result.Fail("Falha ao cadastra usuario assistido: Username já existe");
+                if (username != null) return Result.Fail("Username já existe");
 
                 var usernameResponsavel = _usuarioService.Usuario.FirstOrDefault(usuario => usuario.Username == createDto.Username);
-                if (usernameResponsavel != null) return Result.Fail("Falha ao cadastra usuario: Username já existe");
+                if (usernameResponsavel != null) return Result.Fail("Username já existe");
 
                 var cpf = _usuarioService.UsuarioAssistido.FirstOrDefault(usuario => usuario.Cpf == createDto.Cpf);
-                if (cpf != null) return Result.Fail("Falha ao cadastra usuario assistido: CPF já existe");
+                if (cpf != null) return Result.Fail("CPF já existe");
 
                 var responsavel = _usuarioService.Usuario.FirstOrDefault(usuario => usuario.Id == createDto.ResponsavelId);
-                if (responsavel == null) return Result.Fail("Falha ao cadastra usuario assistido: Responsavel não existe");
+                if (responsavel == null) return Result.Fail("Responsavel não existe");
 
                 IdentityUser<int> usuarioIdentity = _mapper.Map<IdentityUser<int>>(assistido);
                 resultadoIdentity = _userManager
@@ -63,8 +63,18 @@ namespace APP.Services
             {
                 return Result.Fail(e.Message);
             }
+            var erro = resultadoIdentity.Result.ToString();
+            if (erro.Contains("Password"))
+            {
+                return Result.Fail("Senha deve conter 1 Letra maiúscula, 1 caracter especial e 1 número");
+            }
+            else if (erro.Contains("UserName"))
+            {
+                return Result.Fail("Username invalido");
 
-            return Result.Fail("Falha ao cadastrar usuário " + resultadoIdentity.Result.ToString());
+            }
+
+            return Result.Fail(erro);
         }
     }
 }

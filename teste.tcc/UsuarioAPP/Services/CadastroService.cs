@@ -75,11 +75,7 @@ namespace UsuariosApi.Services
 
             //return Result.Fail("Falha ao cadastrar usuário : A senha deve conter pelo menos UMA LETRA MAIÚSCULA, UM NUMERO E UM CARACTER ESPECIAL");
             var erro = resultadoIdentity.Result.ToString();
-            if ()
-            {
-
-            }
-            else if (erro.Contains("Password"))
+            if (erro.Contains("Password"))
             {
                 return Result.Fail("Senha deve conter 1 Letra maiúscula, 1 caracter especial e 1 número");
             }
@@ -88,7 +84,8 @@ namespace UsuariosApi.Services
                 return Result.Fail("Username invalido");
 
             }
-            return Result.Fail(resultadoIdentity.Result.ToString());
+
+            return Result.Fail(erro);
         }
 
     }
