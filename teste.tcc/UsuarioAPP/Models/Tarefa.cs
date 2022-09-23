@@ -23,6 +23,8 @@ namespace UsuariosApi.Models
 
         public string DataFinalizacao { get; set; }
 
+        public bool Finalizada { get; set; }
+
         [Required]
         public int ResponsavelId { get; set; }
 

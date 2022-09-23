@@ -20,6 +20,8 @@ namespace UsuariosApi.Data.Dtos.Tarefa
 
         public string DataFinalizacao { get; set; }
 
+        public bool Finalizada { get; set; }
+
         public int ResponsavelId { get; set; }
 
         public int IdosoId { get; set; }

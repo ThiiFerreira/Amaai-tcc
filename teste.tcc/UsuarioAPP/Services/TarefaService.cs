@@ -58,6 +58,17 @@ namespace UsuariosApi.Services
             }
             return null;
         }
+        public List<ReadTarefaDto> RecuperaTarefasFinalizadas(int usuarioId)
+        {
+            List<Tarefa> list = _context.Tarefa.Where(tarefa => (tarefa.IdosoId == usuarioId || tarefa.ResponsavelId == usuarioId) && tarefa.Finalizada == true).ToList();
+            var listOrdenada = list.OrderBy(x => x.DataAlerta).ThenBy(x => x.HoraAlerta);
+
+            if (list != null)
+            {
+                return _mapper.Map<List<ReadTarefaDto>>(listOrdenada);
+            }
+            return null;
+        }
 
         public Result AtualizaTarefa(int id, CreateTarefaDto createTarefaDto, int usuarioId)
         {
@@ -68,6 +79,19 @@ namespace UsuariosApi.Services
             }
             createTarefaDto.Descricao = createTarefaDto.Descricao.ToUpper();
             _mapper.Map(createTarefaDto, tarefa);
+            _context.SaveChanges();
+            return Result.Ok();
+
+        }
+        public Result AtualizaTarefaParaFinalizada(int id, int usuarioId)
+        {
+            Tarefa tarefa = _context.Tarefa.FirstOrDefault(tarefa => tarefa.Id == id && (tarefa.IdosoId == usuarioId || tarefa.ResponsavelId == usuarioId));
+            if (tarefa == null)
+            {
+                return Result.Fail("Tarefa não encontrada");
+            }
+            tarefa.DataFinalizacao = DateTime.Now.ToString("dd/MM/yyyy");
+            tarefa.Finalizada = true;
             _context.SaveChanges();
             return Result.Ok();
 
