@@ -31,7 +31,7 @@ namespace UsuariosApi.Services
             tarefa.ResponsavelId = usuarioId;
             tarefa.IdosoId = _assistido.Id;
 
-            tarefa.DataCriacao = DateTime.UtcNow.AddHours(-3).ToString();
+            tarefa.DataCriacao = DateTime.UtcNow.AddHours(-3).ToString("dd/MM/yyyy");
             
             tarefa.Descricao = tarefa.Descricao.ToUpper();
             _context.Tarefa.Add(tarefa);
@@ -92,7 +92,7 @@ namespace UsuariosApi.Services
             {
                 return Result.Fail("Tarefa não encontrada");
             }
-            tarefa.DataFinalizacao = DateTime.UtcNow.AddHours(-3).ToString();
+            tarefa.DataFinalizacao = DateTime.UtcNow.AddHours(-3).ToString("dd/MM/yyyy");
             tarefa.Finalizada = true;
             _context.SaveChanges();
             return Result.Ok();
