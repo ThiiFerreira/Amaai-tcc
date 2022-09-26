@@ -89,7 +89,7 @@ namespace UsuariosApi.Controllers
         }
 
         [HttpPut("{id}/finalizar")]
-        [Authorize(Roles = "responsavel")]
+        [Authorize(Roles = "responsavel, idoso")]
         public IActionResult AtualizaTarefaParaFinalizada(int id)
         {
             string token = Request.Headers["Authorization"];
