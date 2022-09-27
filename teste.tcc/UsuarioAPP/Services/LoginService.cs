@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using UsuariosApi.Data;
 using UsuariosApi.Data.Requests;
 using UsuariosApi.Models;
 
@@ -14,13 +15,16 @@ namespace UsuariosApi.Services
         private SignInManager<IdentityUser<int>> _signInManager;
         private TokenService _tokenService;
         private EmailService _emailService;
+        private UserDbContext _context;
+
 
         public LoginService(SignInManager<IdentityUser<int>> signInManager,
-            TokenService tokenService, EmailService emailService)
+            TokenService tokenService, EmailService emailService, UserDbContext context)
         {
             _signInManager = signInManager;
             _tokenService = tokenService;
             _emailService = emailService;
+            _context = context;
         }
 
         public Result LogaUsuario(LoginRequest request)
@@ -34,10 +38,24 @@ namespace UsuariosApi.Services
                     .Users
                     .FirstOrDefault(usuario => 
                     usuario.NormalizedUserName == request.Username.ToUpper());
-                Token token = _tokenService
+
+                var usuario = _context.Usuario.FirstOrDefault(usuario => usuario.Username.ToUpper() == request.Username.ToUpper());
+                Token token;
+                if (usuario.Tem_idoso)
+                {
+                    token = _tokenService
+                    .CreateToken(identityUser, _signInManager
+                                .UserManager.GetRolesAsync(identityUser).Result.FirstOrDefault(), "1");
+                    return Result.Ok().WithSuccess(token.Value);
+                }
+                else
+                {
+                    token = _tokenService
                     .CreateToken(identityUser, _signInManager
                                 .UserManager.GetRolesAsync(identityUser).Result.FirstOrDefault());
-                return Result.Ok().WithSuccess(token.Value);
+                    return Result.Ok().WithSuccess(token.Value);
+                }
+                
             }
             return Result.Fail("Login falhou");
         }
