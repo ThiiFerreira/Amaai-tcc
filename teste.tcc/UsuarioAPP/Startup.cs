@@ -80,6 +80,7 @@ namespace UsuariosApi
             services.AddScoped<LogoutService, LogoutService>();
             services.AddScoped<CadastroAssistidoService, CadastroAssistidoService>();
             services.AddScoped<TarefaService, TarefaService>();
+            services.AddScoped<RecuperaEAtualizaDadosServices, RecuperaEAtualizaDadosServices>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
