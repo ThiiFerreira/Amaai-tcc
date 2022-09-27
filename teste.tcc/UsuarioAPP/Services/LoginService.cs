@@ -41,7 +41,7 @@ namespace UsuariosApi.Services
 
                 var usuario = _context.Usuario.FirstOrDefault(usuario => usuario.Username.ToUpper() == request.Username.ToUpper());
                 Token token;
-                if (usuario.Tem_idoso)
+                if (usuario != null && usuario.Tem_idoso)
                 {
                     token = _tokenService
                     .CreateToken(identityUser, _signInManager
