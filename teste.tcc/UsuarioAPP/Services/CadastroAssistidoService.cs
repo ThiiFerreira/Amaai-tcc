@@ -50,10 +50,14 @@ namespace APP.Services
 
                 if (resultadoIdentity.Result.Succeeded)
                 {
+
                     var code = _userManager
                         .GenerateEmailConfirmationTokenAsync(usuarioIdentity).Result;
                     assistido.Id = usuarioIdentity.Id;
                     _usuarioService.UsuarioAssistido.Add(assistido);
+
+                    var usuario = _usuarioService.Usuario.FirstOrDefault(usuario => usuario.Id == assistido.ResponsavelId);
+                    usuario.Tem_idoso = true;
                     _usuarioService.SaveChanges();
 
                     return Result.Ok().WithSuccess(code);
