@@ -1,4 +1,5 @@
-﻿using FluentResults;
+﻿using APP.Models;
+using FluentResults;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,16 @@ namespace UsuariosApi.Services
         public Usuario RecuperaDadosUsuarioPorId(int id)
         {
             Usuario usuario = _context.Usuario.FirstOrDefault(usuario => usuario.Id == id);
+            if (usuario != null)
+            {
+                return usuario;
+            }
+            return null;
+        }
+
+        public UsuarioAssistido RecuperaDadosUsuarioAssistidoPorId(int id)
+        {
+            var usuario = _context.UsuarioAssistido.FirstOrDefault(usuario => usuario.Id == id);
             if (usuario != null)
             {
                 return usuario;

@@ -57,9 +57,8 @@ namespace APP.Services
                     _usuarioService.UsuarioAssistido.Add(assistido);
 
                     var usuario = _usuarioService.Usuario.FirstOrDefault(usuario => usuario.Id == assistido.ResponsavelId);
-                    usuario.Tem_idoso = true;
+                    usuario.IdIdoso = assistido.Id.ToString();
                     _usuarioService.SaveChanges();
-
                     return Result.Ok().WithSuccess(code);
                 }
             }

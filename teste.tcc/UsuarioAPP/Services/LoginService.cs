@@ -41,11 +41,11 @@ namespace UsuariosApi.Services
 
                 var usuario = _context.Usuario.FirstOrDefault(usuario => usuario.Username.ToUpper() == request.Username.ToUpper());
                 Token token;
-                if (usuario != null && usuario.Tem_idoso)
+                if (usuario != null && usuario.IdIdoso != null)
                 {
                     token = _tokenService
                     .CreateToken(identityUser, _signInManager
-                                .UserManager.GetRolesAsync(identityUser).Result.FirstOrDefault(), "1");
+                                .UserManager.GetRolesAsync(identityUser).Result.FirstOrDefault(), usuario.IdIdoso);
                     return Result.Ok().WithSuccess(token.Value);
                 }
                 else

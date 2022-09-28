@@ -43,7 +43,7 @@ namespace UsuariosApi.Services
                 new Claim("username", usuario.UserName),
                 new Claim("id", usuario.Id.ToString()),
                 new Claim(ClaimTypes.Role, role),
-                new Claim("assistido", "1")
+                new Claim("assistido", assistido)
             };
 
             var chave = new SymmetricSecurityKey(

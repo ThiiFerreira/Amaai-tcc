@@ -30,6 +30,15 @@ namespace UsuariosApi.Controllers
             return Ok(usuario);
         }
 
+        [HttpGet("assistido/{id}")]
+        [Authorize(Roles = "responsavel")]
+        public IActionResult RecuperaDadosUsuarioAssistidoPorId(int id)
+        {
+            var usuario = _service.RecuperaDadosUsuarioAssistidoPorId(id);
+            if (usuario == null) return NotFound("Falha ao carregar dados");
+            return Ok(usuario);
+        }
+
         [HttpPut("{id}")]
         [Authorize(Roles = "responsavel")]
 
