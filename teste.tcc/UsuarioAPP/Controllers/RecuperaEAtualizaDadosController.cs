@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UsuariosApi.Data.Dtos.Usuario;
+using UsuariosApi.Data.Dtos.UsuarioAssistido;
 using UsuariosApi.Services;
 
 namespace UsuariosApi.Controllers
@@ -45,6 +46,15 @@ namespace UsuariosApi.Controllers
         public IActionResult AtualizaDadosUsuario([FromBody] UpdateUsuarioDto usuario,int id)
         { 
             var resultado = _service.AtualizaDadosUsuario(usuario,id);
+            if (resultado.IsFailed) return NotFound("Falha ao carregar dados");
+            return NoContent();
+        }
+
+        [HttpPut("assistido/{id}")]
+        [Authorize(Roles = "responsavel")]
+        public IActionResult AtualizaDadosUsuarioAssistido([FromBody] UpdateUsuarioAssitidoDto usuario, int id)
+        {
+            var resultado = _service.AtualizaDadosUsuarioAssistido(usuario, id);
             if (resultado.IsFailed) return NotFound("Falha ao carregar dados");
             return NoContent();
         }
