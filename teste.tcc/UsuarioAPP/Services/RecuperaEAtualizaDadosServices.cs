@@ -99,6 +99,16 @@ namespace UsuariosApi.Services
             return Result.Ok();
         }
 
+        public string RecuperaContatoUsuarioAssistidoPorId(int id)
+        {
+            var usuario = _context.UsuarioAssistido.FirstOrDefault(usuario => usuario.Id == id);
+            if (usuario != null)
+            {
+                return usuario.Telefone;
+            }
+            return null;
+        }
+
         public Result AtualizaDadosUsuarioAssistido(UpdateUsuarioAssitidoDto usuarioDto, int id)
         {
             var user = _context.Users.FirstOrDefault(usuario => usuario.Id == id);
