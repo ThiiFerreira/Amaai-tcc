@@ -33,7 +33,7 @@ namespace UsuariosApi.Services
 
             tarefa.DataCriacao = DateTime.UtcNow.AddHours(-3).ToString("dd/MM/yyyy");
             
-            tarefa.Titulo = tarefa.Descricao.ToUpper();
+            tarefa.Titulo = tarefa.Titulo.ToUpper();
             tarefa.Descricao = tarefa.Descricao.ToUpper();
             _context.Tarefa.Add(tarefa);
             _context.SaveChanges();
@@ -81,7 +81,7 @@ namespace UsuariosApi.Services
                 return Result.Fail("Tarefa não encontrada");
             }
             createTarefaDto.Titulo = createTarefaDto.Titulo.ToUpper();
-            createTarefaDto.Titulo = createTarefaDto.Titulo.ToUpper();
+            createTarefaDto.Descricao = createTarefaDto.Descricao.ToUpper();
             _mapper.Map(createTarefaDto, tarefa);
             _context.SaveChanges();
             return Result.Ok();
