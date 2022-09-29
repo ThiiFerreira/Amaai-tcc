@@ -9,6 +9,7 @@ namespace UsuariosApi.Data.Dtos.Tarefa
     public class CreateTarefaDto
     {
         [Required]
+        public string Titulo { get; set; }
         public string Descricao { get; set; }
         public string HoraAlerta { get; set; }
         public string DataAlerta { get; set; }

@@ -10,6 +10,7 @@ namespace UsuariosApi.Data.Dtos.Tarefa
     {
         public int Id { get; set; }
 
+        public string Titulo { get; set; }
         public string Descricao { get; set; }
 
         public string DataCriacao { get; set; }

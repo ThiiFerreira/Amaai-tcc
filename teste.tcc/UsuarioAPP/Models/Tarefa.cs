@@ -13,7 +13,7 @@ namespace UsuariosApi.Models
         public int Id { get; set; }
 
         [Required]
-
+        public string Titulo { get; set; }
         public string Descricao { get; set; }
 
         public string DataCriacao { get; set; }
