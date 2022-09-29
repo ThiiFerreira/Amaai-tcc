@@ -101,14 +101,8 @@ namespace UsuariosApi.Services
 
         public string RecuperaContatoUsuarioAssistidoPorIdDoSeuResponsavel(int id)
         {
-            var usuario = _context.Usuario.FirstOrDefault(usuario => usuario.Id == id);
-            if (usuario == null)
-            {
-                return null;
-            }
-            
-            var usuarioAssistido = _context.UsuarioAssistido.FirstOrDefault(usuario => usuario.ResponsavelId == usuario.Id);
-            
+            var usuarioAssistido = _context.UsuarioAssistido.FirstOrDefault(usuario => usuario.ResponsavelId == id);
+         
             if(usuarioAssistido != null)
             {
                 return usuarioAssistido.Telefone;
