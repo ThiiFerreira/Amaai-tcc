@@ -63,7 +63,7 @@ namespace UsuariosApi.Controllers
         [Authorize(Roles = "responsavel")]
         public IActionResult RecuperaContatoUsuarioAssistidoPorId(int id)
         {
-            var telefoneUsuario = _service.RecuperaContatoUsuarioAssistidoPorId(id);
+            var telefoneUsuario = _service.RecuperaContatoUsuarioAssistidoPorIdDoSeuResponsavel(id);
             if (telefoneUsuario == null) return NotFound("Falha ao carregar contato");
             return Ok(telefoneUsuario);
         }
