@@ -53,7 +53,10 @@ namespace UsuariosApi.Services
         public List<ReadTarefaDto> RecuperaTarefa(int usuarioId)
         {
             List<Tarefa> list = _context.Tarefa.Where(tarefa => (tarefa.IdosoId == usuarioId || tarefa.ResponsavelId == usuarioId) && tarefa.Finalizada == false).ToList();
-            var listOrdenada = list.OrderBy(x => x.DataAlerta).ThenBy(x => x.HoraAlerta);
+
+ 
+            var listOrdenada = list.OrderBy(x => DateTime.Parse(x.DataAlerta)).ThenBy(x => x.HoraAlerta);
+
 
             if (list != null)
             {
