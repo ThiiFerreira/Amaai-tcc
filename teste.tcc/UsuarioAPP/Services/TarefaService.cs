@@ -54,11 +54,17 @@ namespace UsuariosApi.Services
         {
             List<Tarefa> list = _context.Tarefa.Where(tarefa => (tarefa.IdosoId == usuarioId || tarefa.ResponsavelId == usuarioId) && tarefa.Finalizada == false).ToList();
 
+            
   
-            var listOrdenada = list.OrderBy(x => DateTime.Parse(x.DataAlerta.ToString())).ThenBy(x => x.HoraAlerta);
+            var listOrdenada = list.OrderBy(x => x.DataAlerta.ToString()).ThenBy(x => x.HoraAlerta);
 
             if (list != null)
             {
+                foreach (var tarefa in list)
+                {
+                    DateTime data = DateTime.Parse(tarefa.DataAlerta);
+
+                }
                 return _mapper.Map<List<ReadTarefaDto>>(listOrdenada);
             }
             return null;
