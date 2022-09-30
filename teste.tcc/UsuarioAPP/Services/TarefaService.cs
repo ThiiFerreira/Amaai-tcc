@@ -19,10 +19,12 @@ namespace UsuariosApi.Services
         private UserDbContext _context;
         private IMapper _mapper;
         
+
         public TarefaService(UserDbContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("pt");
         }
 
         public ReadTarefaDto AdicionaTarefa(CreateTarefaDto createTarefaDto, int usuarioId)
@@ -32,8 +34,9 @@ namespace UsuariosApi.Services
             tarefa.ResponsavelId = usuarioId;
             tarefa.IdosoId = _assistido.Id;
 
-            tarefa.DataCriacao = DateTime.UtcNow.AddHours(-3).ToString("dd/MM/yyyy");
-            
+            //tarefa.DataCriacao = DateTime.UtcNow.AddHours(-3).ToString("dd/MM/yyyy");
+            tarefa.DataCriacao = DateTime.Now.ToString("dd/MM/yyyy");
+
             tarefa.Titulo = tarefa.Titulo.ToUpper();
             tarefa.Descricao = tarefa.Descricao.ToUpper();
             _context.Tarefa.Add(tarefa);
@@ -55,9 +58,9 @@ namespace UsuariosApi.Services
         {
             List<Tarefa> list = _context.Tarefa.Where(tarefa => (tarefa.IdosoId == usuarioId || tarefa.ResponsavelId == usuarioId) && tarefa.Finalizada == false).ToList();
 
-            Thread.CurrentThread.CurrentCulture = new CultureInfo("pt");
+            
 
-            var listOrdenada = list.OrderBy(x => x.DataAlerta.ToString()).ThenBy(x => x.HoraAlerta);
+            var listOrdenada = list.OrderBy(x => DateTime.Parse(x.DataAlerta.ToString())).ThenBy(x => x.HoraAlerta);
 
             if (list != null)
             {
@@ -105,6 +108,7 @@ namespace UsuariosApi.Services
                 return Result.Fail("Tarefa não encontrada");
             }
             tarefa.DataFinalizacao = DateTime.UtcNow.AddHours(-3).ToString("dd/MM/yyyy");
+            tarefa.DataFinalizacao = DateTime.Now.ToString("dd/MM/yyyy");
             tarefa.Finalizada = true;
             _context.SaveChanges();
             return Result.Ok();
