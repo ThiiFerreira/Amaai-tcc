@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using UsuariosApi.Data;
 using UsuariosApi.Data.Dtos.Tarefa;
@@ -54,15 +55,16 @@ namespace UsuariosApi.Services
         {
             List<Tarefa> list = _context.Tarefa.Where(tarefa => (tarefa.IdosoId == usuarioId || tarefa.ResponsavelId == usuarioId) && tarefa.Finalizada == false).ToList();
 
-            
-  
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("pt");
+
             var listOrdenada = list.OrderBy(x => x.DataAlerta.ToString()).ThenBy(x => x.HoraAlerta);
 
             if (list != null)
             {
                 foreach (var tarefa in list)
                 {
-                    DateTime data = DateTime.Parse("20-08-2022");
+                    DateTime data = DateTime.Parse("20/08/2022");
+                    Console.WriteLine(data);
 
                 }
                 return _mapper.Map<List<ReadTarefaDto>>(listOrdenada);
