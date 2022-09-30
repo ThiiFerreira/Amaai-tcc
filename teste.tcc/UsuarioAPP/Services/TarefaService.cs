@@ -64,12 +64,6 @@ namespace UsuariosApi.Services
 
             if (list != null)
             {
-                foreach (var tarefa in list)
-                {
-                    DateTime data = DateTime.Parse("20/08/2022");
-                    Console.WriteLine(data);
-
-                }
                 return _mapper.Map<List<ReadTarefaDto>>(listOrdenada);
             }
             return null;
