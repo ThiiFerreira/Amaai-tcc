@@ -62,7 +62,7 @@ namespace UsuariosApi.Services
             {
                 foreach (var tarefa in list)
                 {
-                    DateTime data = DateTime.Parse(tarefa.DataAlerta);
+                    DateTime data = DateTime.Parse("20-08-2022");
 
                 }
                 return _mapper.Map<List<ReadTarefaDto>>(listOrdenada);
