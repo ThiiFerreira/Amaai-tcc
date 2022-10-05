@@ -44,7 +44,7 @@ namespace UsuariosApi.Services
             _context.SaveChanges();
             var tempo = retornaTimer(tarefa);
             Console.WriteLine(tempo.ToString());
-            //criaCronometro(tempo,tarefa, _assistido.Telefone);
+            criaCronometro(tempo,tarefa, _assistido.Telefone);
 
             var resultadoMensagem = _mensagemWpp.EnviarMensagemAlertaTarefa(tarefa, _assistido.Telefone);
 
@@ -136,8 +136,6 @@ namespace UsuariosApi.Services
 
         private double retornaTimer(Tarefa tarefa)
         {
-            Thread.CurrentThread.CurrentCulture = new CultureInfo("pt");
-
             var anoTarefa = int.Parse(tarefa.DataAlerta.Substring(6, 4));
             var mesTarefa = int.Parse(tarefa.DataAlerta.Substring(3, 2));
             var diaTarefa = int.Parse(tarefa.DataAlerta.Substring(0, 2));
@@ -146,10 +144,6 @@ namespace UsuariosApi.Services
 
             DateTime a = DateTime.UtcNow.AddHours(-3);
             DateTime b = new DateTime(anoTarefa, mesTarefa, diaTarefa, horaTarefa, minTarefa, 00);
-            Console.WriteLine(tarefa.DataCriacao);
-            Console.WriteLine(tarefa.DataAlerta);
-            Console.WriteLine(tarefa.HoraAlerta);
-            Console.WriteLine(a);
             return b.Subtract(a).TotalMilliseconds;
         }
 
