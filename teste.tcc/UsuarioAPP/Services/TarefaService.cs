@@ -18,16 +18,18 @@ namespace UsuariosApi.Services
     {
         private UserDbContext _context;
         private IMapper _mapper;
-        
+        private MensagemWpp _mensagemWpp;
 
-        public TarefaService(UserDbContext context, IMapper mapper)
+
+        public TarefaService(UserDbContext context, IMapper mapper, MensagemWpp mensagemWpp)
         {
             _context = context;
             _mapper = mapper;
             Thread.CurrentThread.CurrentCulture = new CultureInfo("pt");
+            _mensagemWpp = mensagemWpp;
         }
 
-        public ReadTarefaDto AdicionaTarefa(CreateTarefaDto createTarefaDto, int usuarioId)
+        public Result AdicionaTarefa(CreateTarefaDto createTarefaDto, int usuarioId)
         {
             var _assistido = _context.UsuarioAssistido.FirstOrDefault(assistido => assistido.ResponsavelId == usuarioId);
             var tarefa = _mapper.Map<Tarefa>(createTarefaDto);
@@ -41,11 +43,24 @@ namespace UsuariosApi.Services
             tarefa.Descricao = tarefa.Descricao.ToUpper();
             _context.Tarefa.Add(tarefa);
             _context.SaveChanges();
-            return _mapper.Map<ReadTarefaDto>(tarefa);
+            var tempo = retornaTimer(tarefa);
+            Console.WriteLine(tempo.ToString());
+            criaCronometro(tempo,tarefa, _assistido.Telefone);
+
+            //var resultadoMensagem = _mensagemWpp.EnviarMensagemAlertaTarefa(tarefa, _assistido.Telefone);
+
+            //if (resultadoMensagem.IsFailed)
+            //{
+            //    return Result.Ok().WithSuccess("Tarefa criada").WithError("Falha ao enviar mensagem para o whastapp");
+            //}
+
+            //return Result.Ok().WithSuccess("Tarefa criada e mensagem enviada para o assistido");
+            return Result.Ok();
         }
 
         public ReadTarefaDto RecuperaTarefaPorId(int id, int usuarioId)
         {
+            
             Tarefa tarefa = _context.Tarefa.FirstOrDefault(tarefa => tarefa.Id == id && (tarefa.IdosoId == usuarioId || tarefa.ResponsavelId == usuarioId));
             if (tarefa != null)
             {
@@ -58,9 +73,7 @@ namespace UsuariosApi.Services
         {
             List<Tarefa> list = _context.Tarefa.Where(tarefa => (tarefa.IdosoId == usuarioId || tarefa.ResponsavelId == usuarioId) && tarefa.Finalizada == false).ToList();
 
-            
-
-            var listOrdenada = list.OrderBy(x => DateTime.Parse(x.DataAlerta.ToString())).ThenBy(x => x.HoraAlerta);
+            var listOrdenada = list.OrderBy(x => DateTime.Parse(x.DataAlerta.ToString())).ThenBy(x => x.HoraAlerta);           
 
             if (list != null)
             {
@@ -120,6 +133,34 @@ namespace UsuariosApi.Services
             _context.Tarefa.Remove(tarefa);
             _context.SaveChanges();
             return Result.Ok();
+        }
+
+        private double retornaTimer(Tarefa tarefa)
+        {
+            var anoTarefa = int.Parse(tarefa.DataAlerta.Substring(6, 4));
+            var mesTarefa = int.Parse(tarefa.DataAlerta.Substring(3, 2));
+            var diaTarefa = int.Parse(tarefa.DataAlerta.Substring(0, 2));
+            var horaTarefa = int.Parse(tarefa.HoraAlerta.Substring(0, 2));
+            var minTarefa = int.Parse(tarefa.HoraAlerta.Substring(3, 2));
+
+            DateTime a = DateTime.Now;
+            DateTime b = new DateTime(anoTarefa, mesTarefa, diaTarefa, horaTarefa, minTarefa, 00);
+            return b.Subtract(a).TotalMilliseconds;
+        }
+
+        private void criaCronometro(double tempo,Tarefa tarefa, string telefone)
+        {
+            var cronometro = new System.Timers.Timer();
+            cronometro.Enabled = false;
+            cronometro.Interval = tempo;
+            cronometro.AutoReset = false;
+            cronometro.Elapsed += async (sender, e)  => enviarMensagemParaRealizarTarefa(tarefa, telefone);
+            cronometro.Start();
+        }
+
+        private void enviarMensagemParaRealizarTarefa (Tarefa tarefa ,string telefone) 
+        {
+            _mensagemWpp.enviarMensagemParaRealizarTarefa(tarefa, telefone);
         }
     }
 }

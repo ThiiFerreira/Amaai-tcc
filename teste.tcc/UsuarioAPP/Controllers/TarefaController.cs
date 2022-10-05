@@ -30,8 +30,9 @@ namespace UsuariosApi.Controllers
             string subToken = token.Substring(7);
             var usuarioId = new HelpersUsuario().RetornarIdUsuario(subToken);
 
-            ReadTarefaDto readTarefaDto = _tarefaService.AdicionaTarefa(createTarefaDto, usuarioId);
-            return CreatedAtAction(nameof(RecuperaTarefaPorId), new { id = readTarefaDto.Id }, readTarefaDto);
+            var resultado = _tarefaService.AdicionaTarefa(createTarefaDto, usuarioId);
+            
+            return Ok(resultado.Reasons);
         }
 
         [HttpGet("{id}")]
