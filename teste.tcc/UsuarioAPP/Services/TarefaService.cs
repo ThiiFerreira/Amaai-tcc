@@ -144,7 +144,7 @@ namespace UsuariosApi.Services
             var horaTarefa = int.Parse(tarefa.HoraAlerta.Substring(0, 2));
             var minTarefa = int.Parse(tarefa.HoraAlerta.Substring(3, 2));
 
-            DateTime a = DateTime.Now;
+            DateTime a = DateTime.UtcNow.AddHours(-3);
             DateTime b = new DateTime(anoTarefa, mesTarefa, diaTarefa, horaTarefa, minTarefa, 00);
             Console.WriteLine(tarefa.DataCriacao);
             Console.WriteLine(tarefa.DataAlerta);
