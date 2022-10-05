@@ -50,7 +50,7 @@ namespace UsuariosApi.Services
 
             if (resultadoMensagem.IsFailed)
             {
-                return Result.Ok().WithSuccess("Tarefa criada").WithError("Falha ao enviar mensagem para o whastapp");
+                return Result.Ok().WithSuccess("Tarefa criada - Falha ao enviar mensagem para o whastapp");
             }
 
             return Result.Ok().WithSuccess("Tarefa criada e mensagem enviada para o assistido");
@@ -158,11 +158,8 @@ namespace UsuariosApi.Services
         }
 
         private void enviarMensagemParaRealizarTarefa (Tarefa tarefa ,string telefone) 
-        {
-            Console.WriteLine("entrando no metodo que envia a mensamge");
+        {      
             _mensagemWpp.enviarMensagemParaRealizarTarefa(tarefa, telefone);
-            Console.WriteLine("depois do metodo que envia a mensamge");
-
         }
     }
 }
