@@ -136,6 +136,8 @@ namespace UsuariosApi.Services
 
         private double retornaTimer(Tarefa tarefa)
         {
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("pt");
+
             var anoTarefa = int.Parse(tarefa.DataAlerta.Substring(6, 4));
             var mesTarefa = int.Parse(tarefa.DataAlerta.Substring(3, 2));
             var diaTarefa = int.Parse(tarefa.DataAlerta.Substring(0, 2));
