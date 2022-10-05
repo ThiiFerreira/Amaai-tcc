@@ -144,6 +144,7 @@ namespace UsuariosApi.Services
 
             DateTime a = DateTime.Now;
             DateTime b = new DateTime(anoTarefa, mesTarefa, diaTarefa, horaTarefa, minTarefa, 00);
+            Console.WriteLine(tarefa.DataCriacao);
             Console.WriteLine(tarefa.DataAlerta);
             Console.WriteLine(tarefa.HoraAlerta);
             Console.WriteLine(a);
