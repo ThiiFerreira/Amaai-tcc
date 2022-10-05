@@ -47,15 +47,13 @@ namespace UsuariosApi.Services
             Console.WriteLine(tempo.ToString());
             criaCronometro(tempo,tarefa, _assistido.Telefone);
 
-            //var resultadoMensagem = _mensagemWpp.EnviarMensagemAlertaTarefa(tarefa, _assistido.Telefone);
+            var resultadoMensagem = _mensagemWpp.EnviarMensagemAlertaTarefa(tarefa, _assistido.Telefone);
 
-            //if (resultadoMensagem.IsFailed)
-            //{
-            //    return Result.Ok().WithSuccess("Tarefa criada").WithError("Falha ao enviar mensagem para o whastapp");
-            //}
-
-            //return Result.Ok().WithSuccess("Tarefa criada e mensagem enviada para o assistido");
-            return Result.Ok();
+            if (resultadoMensagem.IsFailed)
+            {
+                return Result.Ok().WithSuccess("Tarefa criada - Falha ao enviar mensagem para o whastapp");
+            }
+            return Result.Ok().WithSuccess("Tarefa criada e mensagem enviada para o assistido");
         }
 
         public ReadTarefaDto RecuperaTarefaPorId(int id, int usuarioId)
@@ -160,7 +158,9 @@ namespace UsuariosApi.Services
 
         private void enviarMensagemParaRealizarTarefa (Tarefa tarefa ,string telefone) 
         {
+            Console.WriteLine("dentro do metodo envia mensagem");
             _mensagemWpp.enviarMensagemParaRealizarTarefa(tarefa, telefone);
+            Console.WriteLine("depois do metodo envia mensagem");
         }
     }
 }
