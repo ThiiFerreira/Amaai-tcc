@@ -36,7 +36,6 @@ namespace UsuariosApi.Services
             tarefa.ResponsavelId = usuarioId;
             tarefa.IdosoId = _assistido.Id;
 
-            //tarefa.DataCriacao = DateTime.UtcNow.AddHours(-3).ToString("dd/MM/yyyy");
             tarefa.DataCriacao = DateTime.Now.ToString("dd/MM/yyyy");
 
             tarefa.Titulo = tarefa.Titulo.ToUpper();
@@ -51,9 +50,11 @@ namespace UsuariosApi.Services
 
             if (resultadoMensagem.IsFailed)
             {
-                return Result.Ok().WithSuccess("Tarefa criada - Falha ao enviar mensagem para o whastapp");
+                return Result.Ok().WithSuccess("Tarefa criada").WithError("Falha ao enviar mensagem para o whastapp");
             }
+
             return Result.Ok().WithSuccess("Tarefa criada e mensagem enviada para o assistido");
+            
         }
 
         public ReadTarefaDto RecuperaTarefaPorId(int id, int usuarioId)
@@ -73,7 +74,7 @@ namespace UsuariosApi.Services
 
             var listOrdenada = list.OrderBy(x => DateTime.Parse(x.DataAlerta.ToString())).ThenBy(x => x.HoraAlerta);           
 
-            if (list != null)
+            if (listOrdenada != null)
             {
                 return _mapper.Map<List<ReadTarefaDto>>(listOrdenada);
             }
@@ -158,9 +159,10 @@ namespace UsuariosApi.Services
 
         private void enviarMensagemParaRealizarTarefa (Tarefa tarefa ,string telefone) 
         {
-            Console.WriteLine("dentro do metodo envia mensagem");
+            Console.WriteLine("entrando no metodo que envia a mensamge");
             _mensagemWpp.enviarMensagemParaRealizarTarefa(tarefa, telefone);
-            Console.WriteLine("depois do metodo envia mensagem");
+            Console.WriteLine("depois do metodo que envia a mensamge");
+
         }
     }
 }
