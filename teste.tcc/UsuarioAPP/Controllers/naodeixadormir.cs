@@ -19,6 +19,7 @@ namespace UsuariosApi.Controllers
 
             if (fazerGet)
             {
+                Console.WriteLine("Oi acordei");
                 fazerGet = false;
                 int milliseconds = 15000000;
                 Thread.Sleep(milliseconds);
