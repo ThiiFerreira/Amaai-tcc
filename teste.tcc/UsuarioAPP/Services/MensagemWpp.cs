@@ -66,7 +66,7 @@ namespace UsuariosApi.Services
 
             request.Headers.Add("Authorization", $"Bearer {token}");
 
-            var json = "{ \"messaging_product\": \"whatsapp\", \"to\":" + telefone + " , \"type\": \"template\", \"template\": { \"name\": \"alerta_notificacao_realaizar_tarefa \", \"language\": { \"code\": \"pt_BR\" }, \"components\": [{ \"type\": \"body\", \"parameters\": [{ \"type\": \"text\", \"text\": " + titulo + " } ] }]} }";
+            var json = "{ \"messaging_product\": \"whatsapp\", \"to\":" + telefone + " , \"type\": \"template\", \"template\": { \"name\": \"alerta_notificacao_realizar_tarefa\", \"language\": { \"code\": \"pt_BR\" }, \"components\": [{ \"type\": \"body\", \"parameters\": [{ \"type\": \"text\", \"text\": " + titulo + " } ] }]} }";
             var bytearray = Encoding.UTF8.GetBytes(json);
             request.ContentLength = bytearray.Length;
 
