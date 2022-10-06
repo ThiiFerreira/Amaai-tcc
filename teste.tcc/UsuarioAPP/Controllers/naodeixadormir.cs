@@ -15,19 +15,13 @@ namespace UsuariosApi.Controllers
         [HttpGet]
         public void fazRequisicao()
         {
-            var fazerGet = true;
-
-            if (fazerGet)
-            {
                 Console.WriteLine("Oi acordei");
-                fazerGet = false;
-                int milliseconds = 15000000;
+                int milliseconds = 10000;
                 Thread.Sleep(milliseconds);
                 Console.WriteLine("Oi sou eu de novo");
                 WebRequest request = WebRequest.Create("https://app-tcc-amai-producao.herokuapp.com/naodeixadormir");
                 request.Method = "GET";
                 var response = (HttpWebResponse)request.GetResponse();
-            }
         }
     }
 }
