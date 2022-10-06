@@ -22,7 +22,7 @@ namespace UsuariosApi.Controllers
                 
                 Console.WriteLine($"Oi acordei pela {i}° vez");
                 i = i + 1;
-                int milliseconds = 15000;
+                int milliseconds = 900000;
                 Thread.Sleep(milliseconds);
             }
         }
