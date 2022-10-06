@@ -43,8 +43,11 @@ namespace UsuariosApi.Services
             _context.Tarefa.Add(tarefa);
             _context.SaveChanges();
             var tempo = retornaTimer(tarefa);
-            Console.WriteLine(tempo.ToString());
-            criaCronometro(tempo,tarefa, _assistido.Telefone);
+
+            if(tempo>0)
+                criaCronometro(tempo,tarefa, _assistido.Telefone);
+            else
+                Console.WriteLine("Cronometro para realizar tarefa não iniciado");
 
             var resultadoMensagem = _mensagemWpp.EnviarMensagemAlertaTarefa(tarefa, _assistido.Telefone);
 
@@ -53,8 +56,7 @@ namespace UsuariosApi.Services
                 return Result.Ok().WithSuccess("Tarefa criada - Falha ao enviar mensagem para o whastapp");
             }
 
-            return Result.Ok().WithSuccess("Tarefa criada e mensagem enviada para o assistido");
-            
+            return Result.Ok().WithSuccess("Tarefa criada - Mensagem enviada para o assistido");     
         }
 
         public ReadTarefaDto RecuperaTarefaPorId(int id, int usuarioId)

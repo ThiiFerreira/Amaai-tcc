@@ -12,10 +12,17 @@ namespace UsuariosApi.Services
 {
     public class MensagemWpp
     {
+        private string token = "EAAHBE9UHYEgBAKZAi9JOPKJIHGelWjZCWNgO974AkIm6SWBMUH68ZC96KD20lBqZC3cZBsCRrMjI2X5cyV9deYJMNmZCzjy54XZAyPvGyCKRHm1Y4WzOHK8coojowkY105GXYfn8QODJ1eFtZCDPxAmLPr1lMjgI4JZBD6ouZC2JoAFGq5D8beyiRZCLdSK3L3W3ttBFqbxFtxWBwZDZD";
+        private string url = "https://graph.facebook.com/v14.0/105984795618762/messages";
+
+        public MensagemWpp(string token, string url)
+        {
+            this.token = token;
+            this.url = url;
+        }
         public Result EnviarMensagemAlertaTarefa(Tarefa tarefa, String telefone)
         {
-            var token = "EAAHBE9UHYEgBAOGpcnNfdk82zrOnCiZC9C4e2KUZCZBmeEpvZCZAiZCL9n20pzdULF04Kl9Tj94xD55GEEnUTATbNsVdnD5BPhZAA81hkUXKsN0tw1SDmPTxKP67fgtp0BmdkpUj3fhYcYawV10PPqqYhgtElfPaF45hgOGSfShclZCucwZABSNhXVDHuJHvTU9n9Pfj59tZArdRi2H8bNkGqY";
-            WebRequest request = WebRequest.Create("https://graph.facebook.com/v14.0/105984795618762/messages");
+            WebRequest request = WebRequest.Create(url);
             request.Method = "POST";
             request.ContentType = "application/json; charset-UTF-8";
             
@@ -53,8 +60,7 @@ namespace UsuariosApi.Services
 
         public void enviarMensagemParaRealizarTarefa(Tarefa tarefa, String telefone)
         {
-            var token = "EAAHBE9UHYEgBAOGpcnNfdk82zrOnCiZC9C4e2KUZCZBmeEpvZCZAiZCL9n20pzdULF04Kl9Tj94xD55GEEnUTATbNsVdnD5BPhZAA81hkUXKsN0tw1SDmPTxKP67fgtp0BmdkpUj3fhYcYawV10PPqqYhgtElfPaF45hgOGSfShclZCucwZABSNhXVDHuJHvTU9n9Pfj59tZArdRi2H8bNkGqY";
-            WebRequest request = WebRequest.Create("https://graph.facebook.com/v14.0/105984795618762/messages");
+            WebRequest request = WebRequest.Create(url);
             request.Method = "POST";
             request.ContentType = "application/json; charset-UTF-8";
 
@@ -77,18 +83,18 @@ namespace UsuariosApi.Services
                 var response = (HttpWebResponse)request.GetResponse();
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
-                    Console.WriteLine("deu certo");
+                    Console.WriteLine($"mensagem para realizar tarefa enviada - Tarefa: {tarefa.Id}, Reponsavel: {tarefa.ResponsavelId}, Assistido: {tarefa.IdosoId}");
                 }
                 else
                 {
-                    Console.WriteLine("deu errado");
+                    Console.WriteLine($"Falha ao enviar mensagem para realizar tarefa - Tarefa: {tarefa.Id}, Reponsavel: {tarefa.ResponsavelId}, Assistido: {tarefa.IdosoId}");
 
                 }
             }
             catch (Exception e)
             {
 
-                Console.WriteLine("deu errado ex");
+                Console.WriteLine($"Exececao ao enviar mensagem para realizar tarefa - Tarefa: {tarefa.Id}, Reponsavel: {tarefa.ResponsavelId}, Assistido: {tarefa.IdosoId}");
 
             }
         }
