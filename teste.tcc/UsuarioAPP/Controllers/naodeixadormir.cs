@@ -12,19 +12,19 @@ namespace UsuariosApi.Controllers
     [Route("{controller}")]
     public class naodeixadormir : ControllerBase
     {
-        static int i = 0;
 
         [HttpGet]
         public void fazRequisicao()
         {
-            i = i + 1;
-            Console.WriteLine($"Oi acordei pela {i}° vez");
-            int milliseconds = 60000;
-            Thread.Sleep(milliseconds);
-            WebRequest request = WebRequest.Create("https://app-tcc-amai-producao.herokuapp.com/naodeixadormir");
-            //WebRequest request = WebRequest.Create("https://localhost:6001/naodeixadormir");
-            request.Method = "GET";
-            var response = (HttpWebResponse)request.GetResponse();
+            int i = 1;
+            while (i != 0)
+            {
+                
+                Console.WriteLine($"Oi acordei pela {i}° vez");
+                i = i + 1;
+                int milliseconds = 1500000;
+                Thread.Sleep(milliseconds);
+            }
         }
     }
 }
