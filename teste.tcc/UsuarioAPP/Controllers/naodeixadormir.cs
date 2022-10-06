@@ -23,7 +23,7 @@ namespace UsuariosApi.Controllers
                 int milliseconds = 15000000;
                 Thread.Sleep(milliseconds);
                 Console.WriteLine("Oi sou eu de novo");
-                WebRequest request = WebRequest.Create("https://localhost:6001/naodeixadormir");
+                WebRequest request = WebRequest.Create("https://app-tcc-amai-producao.herokuapp.com/naodeixadormir");
                 request.Method = "GET";
                 var response = (HttpWebResponse)request.GetResponse();
             }
