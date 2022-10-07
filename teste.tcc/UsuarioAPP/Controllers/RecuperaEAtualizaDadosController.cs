@@ -86,7 +86,7 @@ namespace UsuariosApi.Controllers
         [Authorize(Roles = "responsavel")]
         public IActionResult ExcluirContaAssistido([FromBody] LoginRequest request)
         {
-            var resultado = _service.ExcluirUsuario(request);
+            var resultado = _service.ExcluirUsuarioAssistido(request);
             if (resultado.IsFailed) return NotFound(resultado.Errors[0].Message);
             return NoContent();
         }
