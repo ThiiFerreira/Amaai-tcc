@@ -211,7 +211,7 @@ namespace UsuariosApi.Services
             var usuario = _context.Usuario.FirstOrDefault(x => x.Id == id);
             var assistido = _context.UsuarioAssistido.FirstOrDefault(x => x.ResponsavelId == id);
 
-            if (assistido != null)
+            if (assistido == null)
             {
                 return Result.Fail("Falha ao excluir conta");
             }
