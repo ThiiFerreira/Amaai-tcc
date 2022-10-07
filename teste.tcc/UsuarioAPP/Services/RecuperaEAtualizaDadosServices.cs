@@ -31,9 +31,9 @@ namespace UsuariosApi.Services
             return null;
         }
 
-        public UsuarioAssistido RecuperaDadosUsuarioAssistidoPorId(int id)
+        public UsuarioAssistido RecuperaDadosUsuarioAssistidoPorIdDoResponsavel(int id)
         {
-            var usuario = _context.UsuarioAssistido.FirstOrDefault(usuario => usuario.Id == id);
+            var usuario = _context.UsuarioAssistido.FirstOrDefault(usuario => usuario.ResponsavelId == id);
             if (usuario != null)
             {
                 return usuario;
@@ -51,7 +51,7 @@ namespace UsuariosApi.Services
             return null;
         }
 
-        public Result AtualizaDadosUsuario(UpdateUsuarioDto usuarioDto, int id)
+        public Result AtualizaDadosResponsavel(UpdateUsuarioDto usuarioDto, int id)
         {
             var user = _context.Users.FirstOrDefault(usuario => usuario.Id == id);
             var usuario = _context.Usuario.FirstOrDefault(usuario => usuario.Id == id);
@@ -112,8 +112,9 @@ namespace UsuariosApi.Services
 
         public Result AtualizaDadosUsuarioAssistido(UpdateUsuarioAssitidoDto usuarioDto, int id)
         {
-            var user = _context.Users.FirstOrDefault(usuario => usuario.Id == id);
-            var usuario = _context.UsuarioAssistido.FirstOrDefault(usuario => usuario.Id == id);
+            
+            var usuario = _context.UsuarioAssistido.FirstOrDefault(usuario => usuario.ResponsavelId == id);
+            var user = _context.Users.FirstOrDefault(user => user.Id == usuario.Id);
 
             if (user == null || usuario == null)
             {
