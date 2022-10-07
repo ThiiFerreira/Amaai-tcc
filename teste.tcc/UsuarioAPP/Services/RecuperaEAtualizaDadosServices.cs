@@ -157,7 +157,7 @@ namespace UsuariosApi.Services
             return Result.Ok();
         }
 
-        public Result ExcluirUsuario(LoginRequest request)
+        public Result ExcluirUsuarioResponsavel(LoginRequest request)
         {
             var resultadoIdentity = _signInManager
                 .PasswordSignInAsync(request.Username, request.Password, false, false);
@@ -176,9 +176,6 @@ namespace UsuariosApi.Services
             var user = _context.Users.FirstOrDefault(x => x.Id == id);
             var usuario = _context.Usuario.FirstOrDefault(x => x.Id == id);
             var assistido = _context.UsuarioAssistido.FirstOrDefault(x => x.ResponsavelId == id);
-
-
-
             if (user == null || usuario == null)
             {
                 return Result.Fail("Falha ao excluir usuario");
@@ -191,6 +188,35 @@ namespace UsuariosApi.Services
 
             _context.Users.Remove(user);
             _context.Usuario.Remove(usuario);
+            _context.SaveChanges();
+
+            return Result.Ok();
+        }
+
+        public Result ExcluirUsuarioAssistido(LoginRequest request)
+        {
+            var resultadoIdentity = _signInManager
+                .PasswordSignInAsync(request.Username, request.Password, false, false);
+            if (!resultadoIdentity.Result.Succeeded)
+            {
+                return Result.Fail("Falha ao excluir usuario");
+            }
+
+            var identityUser = _signInManager
+                    .UserManager
+                    .Users
+                    .FirstOrDefault(usuario =>
+                    usuario.NormalizedUserName == request.Username.ToUpper());
+            var id = identityUser.Id;
+
+            var assistido = _context.UsuarioAssistido.FirstOrDefault(x => x.ResponsavelId == id);
+
+            if (assistido != null)
+            {
+                return Result.Fail("Falha ao excluir conta");
+            }
+
+            _context.UsuarioAssistido.Remove(assistido);
             _context.SaveChanges();
 
             return Result.Ok();

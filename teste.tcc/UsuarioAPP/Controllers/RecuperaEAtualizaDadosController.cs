@@ -76,10 +76,18 @@ namespace UsuariosApi.Controllers
 
         [HttpDelete("responsavel")]
         [Authorize(Roles = "responsavel")]
-        public IActionResult ExcluirConta([FromBody] LoginRequest request)
+        public IActionResult ExcluirUsuarioResponsavel([FromBody] LoginRequest request)
         {
-           var resultado = _service.ExcluirUsuario(request);
+           var resultado = _service.ExcluirUsuarioResponsavel(request);
             if(resultado.IsFailed) return NotFound(resultado.Errors[0].Message);
+            return NoContent();
+        }
+        [HttpDelete("assistido")]
+        [Authorize(Roles = "responsavel")]
+        public IActionResult ExcluirContaAssistido([FromBody] LoginRequest request)
+        {
+            var resultado = _service.ExcluirUsuario(request);
+            if (resultado.IsFailed) return NotFound(resultado.Errors[0].Message);
             return NoContent();
         }
     }
