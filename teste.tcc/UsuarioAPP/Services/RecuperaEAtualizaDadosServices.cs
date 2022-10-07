@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using UsuariosApi.Data;
 using UsuariosApi.Data.Dtos.Usuario;
 using UsuariosApi.Data.Dtos.UsuarioAssistido;
+using UsuariosApi.Data.Requests;
 using UsuariosApi.Models;
 
 namespace UsuariosApi.Services
@@ -15,10 +16,13 @@ namespace UsuariosApi.Services
     public class RecuperaEAtualizaDadosServices
     {
         private UserDbContext _context;
+        private SignInManager<IdentityUser<int>> _signInManager;
 
-        public RecuperaEAtualizaDadosServices(UserDbContext context)
+
+        public RecuperaEAtualizaDadosServices(UserDbContext context, SignInManager<IdentityUser<int>> signInManager)
         {
             _context = context;
+            _signInManager = signInManager;
         }
 
         public Usuario RecuperaDadosUsuarioPorId(int id)
@@ -150,6 +154,45 @@ namespace UsuariosApi.Services
                 usuario.Endereco = usuarioDto.Endereco;
             }
             _context.SaveChanges();
+            return Result.Ok();
+        }
+
+        public Result ExcluirUsuario(LoginRequest request)
+        {
+            var resultadoIdentity = _signInManager
+                .PasswordSignInAsync(request.Username, request.Password, false, false);
+            if (!resultadoIdentity.Result.Succeeded)
+            {
+                return Result.Fail("Falha ao excluir usuario");
+            }
+
+            var identityUser = _signInManager
+                    .UserManager
+                    .Users
+                    .FirstOrDefault(usuario =>
+                    usuario.NormalizedUserName == request.Username.ToUpper());
+            var id = identityUser.Id;
+
+            var user = _context.Users.FirstOrDefault(x => x.Id == id);
+            var usuario = _context.Usuario.FirstOrDefault(x => x.Id == id);
+            var assistido = _context.UsuarioAssistido.FirstOrDefault(x => x.ResponsavelId == id);
+
+
+
+            if (user == null || usuario == null)
+            {
+                return Result.Fail("Falha ao excluir usuario");
+            }
+
+            if(assistido != null)
+            {
+                return Result.Fail("Não é possivel excluir conta com assistido cadastrado");
+            }
+
+            _context.Users.Remove(user);
+            _context.Usuario.Remove(usuario);
+            _context.SaveChanges();
+
             return Result.Ok();
         }
     }

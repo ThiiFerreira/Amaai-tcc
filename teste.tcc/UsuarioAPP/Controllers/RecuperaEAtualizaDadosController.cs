@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using UsuariosApi.Data.Dtos.Usuario;
 using UsuariosApi.Data.Dtos.UsuarioAssistido;
+using UsuariosApi.Data.Requests;
 using UsuariosApi.Helpers;
 using UsuariosApi.Services;
 
@@ -72,15 +73,14 @@ namespace UsuariosApi.Controllers
             return NoContent();
         }
 
-        [HttpGet("assistido/{id}/contato")]
+
+        [HttpDelete("responsavel")]
         [Authorize(Roles = "responsavel")]
-        public IActionResult RecuperaContatoUsuarioAssistidoPorId(int id)
+        public IActionResult ExcluirConta([FromBody] LoginRequest request)
         {
-            var telefoneUsuario = _service.RecuperaContatoUsuarioAssistidoPorIdDoSeuResponsavel(id);
-            if (telefoneUsuario == null) return NotFound("Falha ao carregar contato");
-            return Ok(telefoneUsuario);
+           var resultado = _service.ExcluirUsuario(request);
+            if(resultado.IsFailed) return NotFound(resultado.Errors[0].Message);
+            return NoContent();
         }
-
-
     }
 }
