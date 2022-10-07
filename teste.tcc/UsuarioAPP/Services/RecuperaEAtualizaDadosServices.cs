@@ -216,6 +216,15 @@ namespace UsuariosApi.Services
                 return Result.Fail("Falha ao excluir conta");
             }
 
+            var tarefa = _context.Tarefa.FirstOrDefault(x => x.ResponsavelId == id);
+
+            if(tarefa != null)
+            {
+                return Result.Fail("Impossivel excluir conta com tarefas existentes, apague as tarefas e tente novamente");
+
+            }
+
+
             usuario.IdIdoso = null;
             _context.UsuarioAssistido.Remove(assistido);
 
