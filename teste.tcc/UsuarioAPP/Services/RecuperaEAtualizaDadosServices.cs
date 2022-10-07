@@ -218,7 +218,6 @@ namespace UsuariosApi.Services
 
             _context.UsuarioAssistido.Remove(assistido);
             _context.SaveChanges();
-
             return Result.Ok();
         }
     }
