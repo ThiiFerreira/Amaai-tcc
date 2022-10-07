@@ -208,7 +208,7 @@ namespace UsuariosApi.Services
                     .FirstOrDefault(usuario =>
                     usuario.NormalizedUserName == request.Username.ToUpper());
             var id = identityUser.Id;
-
+            var usuario = _context.Usuario.FirstOrDefault(x => x.Id == id);
             var assistido = _context.UsuarioAssistido.FirstOrDefault(x => x.ResponsavelId == id);
 
             if (assistido != null)
@@ -216,7 +216,9 @@ namespace UsuariosApi.Services
                 return Result.Fail("Falha ao excluir conta");
             }
 
+            usuario.IdIdoso = null;
             _context.UsuarioAssistido.Remove(assistido);
+
             _context.SaveChanges();
             return Result.Ok();
         }
