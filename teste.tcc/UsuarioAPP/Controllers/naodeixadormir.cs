@@ -12,14 +12,22 @@ namespace UsuariosApi.Controllers
     [Route("{controller}")]
     public class naodeixadormir : ControllerBase
     {
+        static int cont = 1;
 
         [HttpGet]
         public IActionResult fazRequisicao()
         {
-            Console.WriteLine("Criando cronometro para chamar loop");
-            criaCronometro(60000);
-            Console.WriteLine("Cronometro criado");
 
+            criaCronometro(600000);
+
+            return NoContent();
+        }
+
+        [HttpGet("reset")]
+        public IActionResult fazRequisicaoReset()
+        {
+            Console.WriteLine($"Oi fui chamado pela {cont}° vez");
+            cont++;
             return NoContent();
         }
 
@@ -28,22 +36,33 @@ namespace UsuariosApi.Controllers
             var cronometro = new System.Timers.Timer();
             cronometro.Enabled = false;
             cronometro.Interval = tempo;
-            cronometro.AutoReset = false;
             cronometro.Elapsed += async (sender, e) => realizaLoopInfinito();
             cronometro.Start();
         }
 
         private void realizaLoopInfinito()
         {
-            int i = 1;
-            while (i != 0)
+            
+            WebRequest request = WebRequest.Create("https://localhost:6001/naodeixadormir/reset");
+            request.Method = "GET";
+            try
             {
-                
-                Console.WriteLine($"Oi acordei pela {i}° vez");
+                var response = (HttpWebResponse)request.GetResponse();
+                if (response.StatusCode == HttpStatusCode.NoContent)
+                {
 
-                i = i + 1;
-                int milliseconds = 900000;
-                Thread.Sleep(milliseconds);
+                }
+                else
+                {
+                    Console.WriteLine("Verificar rota nãodeixardormir/reset - falha detectada no else");
+
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Verificar rota nãodeixardormir/reset - falha detectada no exceção");
+                Console.WriteLine(e.Message);
+
             }
         }
     }
