@@ -10,16 +10,17 @@ namespace UsuariosApi.Controllers
 {
     [ApiController]
     [Route("{controller}")]
-    public class naodeixadormir : ControllerBase
+    public class NaoDeixaDormirController : ControllerBase
     {
         static int cont = 1;
 
         [HttpGet]
         public IActionResult fazRequisicao()
         {
-
+            Console.WriteLine("Criando cronometro ...");
             criaCronometro(600000);
-
+            Console.WriteLine("Cronometro criado");
+            
             return NoContent();
         }
 
@@ -42,7 +43,8 @@ namespace UsuariosApi.Controllers
 
         private void realizaLoopInfinito()
         {
-            
+            Console.WriteLine("Fazendo requisição");
+
             WebRequest request = WebRequest.Create("https://app-tcc-amai-producao.herokuapp.com/naodeixadormir/reset");
             request.Method = "GET";
             try
@@ -64,6 +66,8 @@ namespace UsuariosApi.Controllers
                 Console.WriteLine(e.Message);
 
             }
+
+            Console.WriteLine("Final da requisição");
         }
     }
 }
