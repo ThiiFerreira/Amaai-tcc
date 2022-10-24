@@ -43,7 +43,7 @@ namespace UsuariosApi.Controllers
         private void realizaLoopInfinito()
         {
             
-            WebRequest request = WebRequest.Create("https://localhost:6001/naodeixadormir/reset");
+            WebRequest request = WebRequest.Create("https://app-tcc-amai-producao.herokuapp.com/naodeixadormir/reset");
             request.Method = "GET";
             try
             {
