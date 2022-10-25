@@ -129,3 +129,9 @@ C:\Users\thiag\Documents\Projetos\tcc\teste.tcc\UsuarioAPP\bin\Debug\net5.0\Syst
 C:\Users\thiag\Documents\Projetos\tcc\teste.tcc\UsuarioAPP\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Users\thiag\Documents\Projetos\tcc\teste.tcc\UsuarioAPP\bin\Debug\net5.0\Microsoft.IdentityModel.Protocols.dll
 C:\Users\thiag\Documents\Projetos\tcc\teste.tcc\UsuarioAPP\bin\Debug\net5.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\thiag\Documents\Projetos\tcc\teste.tcc\UsuarioAPP\bin\Debug\net5.0\System.Web.Razor.dll
+C:\Users\thiag\Documents\Projetos\tcc\teste.tcc\UsuarioAPP\bin\Debug\net5.0\System.Web.Helpers.dll
+C:\Users\thiag\Documents\Projetos\tcc\teste.tcc\UsuarioAPP\bin\Debug\net5.0\System.Web.WebPages.Deployment.dll
+C:\Users\thiag\Documents\Projetos\tcc\teste.tcc\UsuarioAPP\bin\Debug\net5.0\System.Web.WebPages.Razor.dll
+C:\Users\thiag\Documents\Projetos\tcc\teste.tcc\UsuarioAPP\bin\Debug\net5.0\System.Web.WebPages.dll
+C:\Users\thiag\Documents\Projetos\tcc\teste.tcc\UsuarioAPP\bin\Debug\net5.0\Microsoft.Web.Infrastructure.dll
