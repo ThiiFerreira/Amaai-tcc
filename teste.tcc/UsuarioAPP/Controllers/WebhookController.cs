@@ -18,7 +18,7 @@ namespace WebAppMonitoramentoWebhook.Controllers
         }
 
         [HttpGet]
-        public object? GetLastEvent()
+        public object? GetLastEvent(bool hubmode, int hubchallenge , string hubverify_token)
         {
             _logger.LogInformation($"{nameof(GetLastEvent)} | ultimo evento recebido: " +
                 JsonSerializer.Serialize(_lastEvent,
