@@ -46,8 +46,13 @@ namespace WebAppMonitoramentoWebhook.Controllers
 
             try
             {
-                mensagem = obj.RootElement.GetProperty("entry")[0].GetProperty("changes")[0].GetProperty("value").GetProperty("messages")[0].GetProperty("text").GetProperty("body").ToString();
-
+                mensagem = obj.RootElement.GetProperty("entry")[0]
+                    .GetProperty("changes")[0]
+                    .GetProperty("value")
+                    .GetProperty("messages")[0]
+                    .GetProperty("button")
+                    .GetProperty("text")
+                    .ToString();
             }
             catch (Exception e)
             {
