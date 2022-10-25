@@ -97,7 +97,7 @@ namespace UsuariosApi.Controllers
             string subToken = token.Substring(7);
             var usuarioId = new HelpersUsuario().RetornarIdUsuario(subToken);
 
-            Result resultado = _tarefaService.AtualizaTarefaParaFinalizada(id, usuarioId);
+            Result resultado = _tarefaService.AtualizaTarefaParaFinalizada(id);
             if (resultado.IsFailed) return NotFound();
             return NoContent();
         }

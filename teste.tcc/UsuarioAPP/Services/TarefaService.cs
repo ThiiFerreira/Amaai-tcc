@@ -108,17 +108,22 @@ namespace UsuariosApi.Services
             return Result.Ok();
 
         }
-        public Result AtualizaTarefaParaFinalizada(int id, int usuarioId)
+        public Result AtualizaTarefaParaFinalizada(int id)
         {
-            Tarefa tarefa = _context.Tarefa.FirstOrDefault(tarefa => tarefa.Id == id && (tarefa.IdosoId == usuarioId || tarefa.ResponsavelId == usuarioId));
+
+            Tarefa tarefa = _context.Tarefa.FirstOrDefault(tarefa => tarefa.Id == id);
             if (tarefa == null)
             {
                 return Result.Fail("Tarefa não encontrada");
             }
+            var _assistido = _context.UsuarioAssistido.FirstOrDefault(assistido => assistido.Id == tarefa.IdosoId);
+
             tarefa.DataFinalizacao = DateTime.UtcNow.AddHours(-3).ToString("dd/MM/yyyy");
             tarefa.DataFinalizacao = DateTime.Now.ToString("dd/MM/yyyy");
             tarefa.Finalizada = true;
             _context.SaveChanges();
+
+            _mensagemWpp.enviaFeedbackTarefaFinalizada(_assistido.Nome, tarefa, _assistido.Telefone);
             return Result.Ok();
 
         }

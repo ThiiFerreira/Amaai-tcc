@@ -104,5 +104,89 @@ namespace UsuariosApi.Services
 
             }
         }
+
+        public void enviarMensagemPedindoCodigoDaTarefa(string telefone)
+        {
+            WebRequest request = WebRequest.Create(url);
+            request.Method = "POST";
+            request.ContentType = "application/json; charset-UTF-8";
+
+            telefone = $"\"{telefone}\"";
+
+            request.Headers.Add("Authorization", $"Bearer {token}");    
+
+            var json = "{ \"messaging_product\" : \"whatsapp\",\"to\":" + telefone + " ,\"type\": \"template\",\"template\": {\"name\": \"confirmar_finalizar_tarefa\",\"language\": {\"code\": \"pt_BR\"}}}";
+            var bytearray = Encoding.UTF8.GetBytes(json);
+            request.ContentLength = bytearray.Length;
+
+            Stream stream = request.GetRequestStream();
+            stream.Write(bytearray, 0, bytearray.Length);
+            stream.Close();
+
+            try
+            {
+                var response = (HttpWebResponse)request.GetResponse();
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    Console.WriteLine($"mensagema enviada");
+                }
+                else
+                {
+                    Console.WriteLine($"Falha ao enviar mensagem");
+
+                }
+            }
+            catch (Exception e)
+            {
+
+                Console.WriteLine($"Exececao ao enviar mensagem");
+
+            }
+        }
+
+        public void enviaFeedbackTarefaFinalizada(string nomeAssistido, Tarefa tarefa, string telefone)
+        {
+            WebRequest request = WebRequest.Create(url);
+            request.Method = "POST";
+            request.ContentType = "application/json; charset-UTF-8";
+
+
+
+            string titulo = $"\"{tarefa.Titulo}\"";
+            string nome = $"\"{nomeAssistido}\"";
+
+            telefone = $"\"{55 + telefone}\"";
+
+            request.Headers.Add("Authorization", $"Bearer {token}");
+
+            var json = "{ \"messaging_product\": \"whatsapp\", \"to\":" + telefone + " , \"type\": \"template\", \"template\": { \"name\": \"feedback_finalizacao_mensagem\", \"language\": { \"code\": \"pt_BR\" }, \"components\": [{ \"type\": \"body\", \"parameters\": [{ \"type\": \"text\", \"text\": " + nome + " }, { \"type\": \"text\", \"text\": " + titulo + " }, { \"type\": \"text\", \"text\": 00 }, { \"type\": \"text\", \"text\": 00 } ] }]} }";
+            var bytearray = Encoding.UTF8.GetBytes(json);
+            request.ContentLength = bytearray.Length;
+
+            Stream stream = request.GetRequestStream();
+            stream.Write(bytearray, 0, bytearray.Length);
+            stream.Close();
+
+            try
+            {
+                var response = (HttpWebResponse)request.GetResponse();
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    Console.WriteLine($"mensagem enviada");
+                }
+                else
+                {
+                    Console.WriteLine($"Falha ao enviar mensagem");
+
+                }
+            }
+            catch (Exception e)
+            {
+
+                Console.WriteLine($"Exececao ao enviar mensagem");
+
+            }
+        }
+    
     }
 }
