@@ -19,10 +19,12 @@ namespace WebAppMonitoramentoWebhook.Controllers
         }
 
         [HttpGet]
-        public int GetLastEvent([FromQuery] object data)
+        public string GetLastEvent([FromQuery] object data)
         {
-            System.Console.WriteLine(data.GetHashCode());
-            return data.GetHashCode();
+
+            var teste = Request.Query["hub.challenge"];
+            System.Console.WriteLine(teste);
+            return teste;
         }
 
         [HttpPost]
