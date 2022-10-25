@@ -24,11 +24,23 @@ namespace WebAppMonitoramentoWebhook.Controllers
         [HttpPost]
         public IActionResult PostEvent([FromBody] JsonElement json)
         {
+            
             var obj = JsonDocument.Parse(json.ToString());
-            var mensagem = obj.RootElement.GetProperty("entry")[0].GetProperty("changes")[0].GetProperty("value").GetProperty("messages")[0].GetProperty("text").GetProperty("body");
+            var mensagem = "";
+
+            try
+            {
+                mensagem = obj.RootElement.GetProperty("entry")[0].GetProperty("changes")[0].GetProperty("value").GetProperty("messages")[0].GetProperty("text").GetProperty("body").ToString();
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            
             Console.WriteLine(mensagem);
 
-            return Ok();
+            return NoContent();
         }
     }
 }
