@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using UsuariosApi.Data;
 using UsuariosApi.Models;
 
 namespace UsuariosApi.Services
@@ -14,8 +15,13 @@ namespace UsuariosApi.Services
     {
         private string token = "EAAHBE9UHYEgBAKZAi9JOPKJIHGelWjZCWNgO974AkIm6SWBMUH68ZC96KD20lBqZC3cZBsCRrMjI2X5cyV9deYJMNmZCzjy54XZAyPvGyCKRHm1Y4WzOHK8coojowkY105GXYfn8QODJ1eFtZCDPxAmLPr1lMjgI4JZBD6ouZC2JoAFGq5D8beyiRZCLdSK3L3W3ttBFqbxFtxWBwZDZD";
         private string url = "https://graph.facebook.com/v14.0/105984795618762/messages";
+        private UserDbContext _context;
 
-       
+        public MensagemWpp(UserDbContext context)
+        {
+            _context = context;
+        }
+
         public Result EnviarMensagemAlertaTarefa(Tarefa tarefa, String telefone)
         {
             WebRequest request = WebRequest.Create(url);
@@ -60,13 +66,18 @@ namespace UsuariosApi.Services
             request.Method = "POST";
             request.ContentType = "application/json; charset-UTF-8";
 
+            var _assistido = _context.UsuarioAssistido.FirstOrDefault(assistido => assistido.Id == tarefa.IdosoId);
+
+
             string titulo = $"\"{tarefa.Titulo}\"";
+            string id = $"\"{tarefa.Id}\"";
+            string nome = $"\"{_assistido.Nome}\"";
 
             telefone = $"\"{55 + telefone}\"";
 
             request.Headers.Add("Authorization", $"Bearer {token}");
 
-            var json = "{ \"messaging_product\": \"whatsapp\", \"to\":" + telefone + " , \"type\": \"template\", \"template\": { \"name\": \"alerta_notificacao_realizar_tarefa\", \"language\": { \"code\": \"pt_BR\" }, \"components\": [{ \"type\": \"body\", \"parameters\": [{ \"type\": \"text\", \"text\": " + titulo + " } ] }]} }";
+            var json = "{ \"messaging_product\": \"whatsapp\", \"to\":" + telefone + " , \"type\": \"template\", \"template\": { \"name\": \"alerta_notificacao_realizar_tarefa\", \"language\": { \"code\": \"pt_BR\" }, \"components\": [{ \"type\": \"body\", \"parameters\": [{ \"type\": \"text\", \"text\": " + nome + " }, { \"type\": \"text\", \"text\": " + titulo + " }, { \"type\": \"text\", \"text\": " + id + " } ] }]} }";
             var bytearray = Encoding.UTF8.GetBytes(json);
             request.ContentLength = bytearray.Length;
 

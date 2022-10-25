@@ -40,33 +40,35 @@ namespace WebAppMonitoramentoWebhook.Controllers
         [HttpPost("whatsapp")]
         public IActionResult PostEvent([FromBody] JsonElement json)
         {
-            
-            var obj = JsonDocument.Parse(json.ToString());
-            var mensagem = "";
+            _lastEvent = json;
+            _logger.LogInformation($"{nameof(PostEvent)} | Notificação recebida: " +
+                JsonSerializer.Serialize(json,
+                    options: new() { WriteIndented = true }));
+
+            var obj = JsonDocument.Parse(json.ToString());   
 
             try
             {
-                mensagem = obj.RootElement.GetProperty("entry")[0]
+                var mensagem = obj.RootElement.GetProperty("entry")[0]
                     .GetProperty("changes")[0]
                     .GetProperty("value")
                     .GetProperty("messages")[0]
                     .GetProperty("button")
                     .GetProperty("text")
                     .ToString();
+
+                var subMensagem = mensagem.Substring(0, 9);
+
+                if (subMensagem == "Finalizar")
+                {
+                    
+                }
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }
-            
-            Console.WriteLine(mensagem);
-
-            _lastEvent = json;
-            _logger.LogInformation($"{nameof(PostEvent)} | Notificação recebida: " +
-                JsonSerializer.Serialize(json,
-                    options: new() { WriteIndented = true }));
-
-            return NoContent();
+            return Ok();
         }
     }
 }
