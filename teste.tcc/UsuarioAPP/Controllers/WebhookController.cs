@@ -1,26 +1,39 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using UsuariosApi.Models;
+using Microsoft.Extensions.Logging;
+using System.Text.Json;
 
-namespace UsuariosApi.Controllers
+namespace WebAppMonitoramentoWebhook.Controllers
 {
+
     [ApiController]
-    [Route("{controller}")]
-    public class WebhookController : ControllerBase
+    [Route("[controller]")]
+    public class WebhookMonitorController : ControllerBase
     {
-        [HttpPost]
-        public void fazRequisicao()
+        private readonly ILogger<WebhookMonitorController> _logger;
+        private static object? _lastEvent;
+
+        public WebhookMonitorController(ILogger<WebhookMonitorController> logger)
         {
-            Console.WriteLine("Oie post");
+            _logger = logger;
         }
 
         [HttpGet]
-        public void fazRequisicao2()
+        public object? GetLastEvent()
         {
-            Console.WriteLine("Oie get");
+            _logger.LogInformation($"{nameof(GetLastEvent)} | ultimo evento recebido: " +
+                JsonSerializer.Serialize(_lastEvent,
+                    options: new() { WriteIndented = true }));
+            return _lastEvent;
+        }
+
+        [HttpPost]
+        public IActionResult PostEvent(object data)
+        {
+            _lastEvent = data;
+            _logger.LogInformation($"{nameof(PostEvent)} | Notifica��o recebida: " +
+                JsonSerializer.Serialize(data,
+                    options: new() { WriteIndented = true }));
+            return Ok();
         }
     }
 }
