@@ -28,12 +28,10 @@ namespace WebAppMonitoramentoWebhook.Controllers
         }
 
         [HttpPost]
-        public IActionResult PostEvent(object data)
+        public IActionResult PostEvent([FromQuery] object data)
         {
-            _lastEvent = data;
-            _logger.LogInformation($"{nameof(PostEvent)} | Notifica��o recebida: " +
-                JsonSerializer.Serialize(data,
-                    options: new() { WriteIndented = true }));
+            var teste = Request.Body;
+            System.Console.WriteLine(teste);
             return Ok();
         }
     }
