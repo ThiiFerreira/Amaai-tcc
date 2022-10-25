@@ -25,8 +25,7 @@ namespace WebAppMonitoramentoWebhook.Controllers
         public IActionResult PostEvent([FromBody] JsonElement json)
         {
             var obj = JsonDocument.Parse(json.ToString());
-            Console.WriteLine(json.ToString());
-            var mensagem = obj.RootElement.GetProperty("value").GetProperty("messages")[0].GetProperty("text").GetProperty("body");
+            var mensagem = obj.RootElement.GetProperty("entry")[0].GetProperty("changes")[0].GetProperty("value").GetProperty("messages")[0].GetProperty("text").GetProperty("body");
             Console.WriteLine(mensagem);
 
             return Ok();
