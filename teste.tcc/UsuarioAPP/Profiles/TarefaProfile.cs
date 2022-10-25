@@ -9,7 +9,7 @@ using UsuariosApi.Models;
 
 namespace UsuariosApi.Profiles
 {
-    public class TarefaProfile :Profile
+    public class TarefaProfile : Profile
     {
         public TarefaProfile()
         {

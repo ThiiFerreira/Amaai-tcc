@@ -12,9 +12,9 @@ namespace UsuariosApi.Controllers
     public class WebhookController : ControllerBase
     {
         [HttpPost]
-        public void fazRequisicao([FromBody] Entry body)
+        public void fazRequisicao()
         {
-            Console.WriteLine(body);
+            Console.WriteLine("Oie");
         }
     }
 }
