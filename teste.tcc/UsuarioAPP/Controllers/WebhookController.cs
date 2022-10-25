@@ -15,15 +15,13 @@ namespace WebAppMonitoramentoWebhook.Controllers
         public WebhookMonitorController(ILogger<WebhookMonitorController> logger)
         {
             _logger = logger;
+            
         }
 
         [HttpGet]
-        public object? GetLastEvent(bool hubmode, int hubchallenge , string hubverify_token)
+        public void GetLastEvent([FromQuery] object data)
         {
-            _logger.LogInformation($"{nameof(GetLastEvent)} | ultimo evento recebido: " +
-                JsonSerializer.Serialize(_lastEvent,
-                    options: new() { WriteIndented = true }));
-            return _lastEvent;
+            System.Console.WriteLine(data.GetHashCode());
         }
 
         [HttpPost]
