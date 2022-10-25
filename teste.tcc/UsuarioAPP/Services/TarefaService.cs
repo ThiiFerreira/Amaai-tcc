@@ -45,7 +45,7 @@ namespace UsuariosApi.Services
             var tempo = retornaTimer(tarefa);
 
             if(tempo>0)
-                criaCronometro(tempo,tarefa, _assistido.Telefone);
+                criaCronometro(tempo,tarefa, _assistido.Telefone, _assistido.Nome);
             else
                 Console.WriteLine("Cronometro para realizar tarefa não iniciado");
 
@@ -149,19 +149,19 @@ namespace UsuariosApi.Services
             return b.Subtract(a).TotalMilliseconds;
         }
 
-        private void criaCronometro(double tempo,Tarefa tarefa, string telefone)
+        private void criaCronometro(double tempo,Tarefa tarefa, string telefone, string nomeAssistido)
         {
             var cronometro = new System.Timers.Timer();
             cronometro.Enabled = false;
             cronometro.Interval = tempo;
             cronometro.AutoReset = false;
-            cronometro.Elapsed += async (sender, e)  => enviarMensagemParaRealizarTarefa(tarefa, telefone);
+            cronometro.Elapsed += async (sender, e)  => enviarMensagemParaRealizarTarefa(tarefa, telefone, nomeAssistido);
             cronometro.Start();
         }
 
-        private void enviarMensagemParaRealizarTarefa (Tarefa tarefa ,string telefone) 
+        private void enviarMensagemParaRealizarTarefa (Tarefa tarefa ,string telefone, string nomeAssistido) 
         {      
-            _mensagemWpp.enviarMensagemParaRealizarTarefa(tarefa, telefone);
+            _mensagemWpp.enviarMensagemParaRealizarTarefa(tarefa, telefone, nomeAssistido);
         }
     }
 }

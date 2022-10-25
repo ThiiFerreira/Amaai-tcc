@@ -60,18 +60,17 @@ namespace UsuariosApi.Services
             }
         }
 
-        public void enviarMensagemParaRealizarTarefa(Tarefa tarefa, String telefone)
+        public void enviarMensagemParaRealizarTarefa(Tarefa tarefa, String telefone, string nomeAssistido)
         {
             WebRequest request = WebRequest.Create(url);
             request.Method = "POST";
             request.ContentType = "application/json; charset-UTF-8";
 
-            var _assistido = _context.UsuarioAssistido.FirstOrDefault(assistido => assistido.Id == tarefa.IdosoId);
-
+          
 
             string titulo = $"\"{tarefa.Titulo}\"";
             string id = $"\"{tarefa.Id}\"";
-            string nome = $"\"{_assistido.Nome}\"";
+            string nome = $"\"{nomeAssistido}\"";
 
             telefone = $"\"{55 + telefone}\"";
 
