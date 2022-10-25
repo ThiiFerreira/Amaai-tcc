@@ -14,19 +14,10 @@ namespace WebAppMonitoramentoWebhook.Controllers
     [Route("[controller]")]
     public class WebhookMonitorController : ControllerBase
     {
-        private readonly ILogger<WebhookMonitorController> _logger;
-        private static object? _lastEvent;
-
-        public WebhookMonitorController(ILogger<WebhookMonitorController> logger)
-        {
-            _logger = logger;
-            
-        }
 
         [HttpGet]
         public string GetLastEvent([FromQuery] object data)
         {
-
             var teste = Request.Query["hub.challenge"];
             System.Console.WriteLine(teste);
             return teste;
@@ -35,12 +26,9 @@ namespace WebAppMonitoramentoWebhook.Controllers
         [HttpPost]
         public IActionResult PostEvent([FromBody] JsonElement json)
         {
-            //Console.WriteLine(json);
-
             var obj = JsonDocument.Parse(json.ToString());
             var mensagem = obj.RootElement.GetProperty("value").GetProperty("messages")[0].GetProperty("text").GetProperty("body");
             Console.WriteLine(mensagem);
-
 
             return Ok();
         }
