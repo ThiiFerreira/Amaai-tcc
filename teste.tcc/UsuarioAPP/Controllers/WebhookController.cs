@@ -19,9 +19,10 @@ namespace WebAppMonitoramentoWebhook.Controllers
         }
 
         [HttpGet]
-        public void GetLastEvent([FromQuery] object data)
+        public int GetLastEvent([FromQuery] object data)
         {
             System.Console.WriteLine(data.GetHashCode());
+            return data.GetHashCode();
         }
 
         [HttpPost]
