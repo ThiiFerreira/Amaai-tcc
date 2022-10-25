@@ -14,7 +14,13 @@ namespace UsuariosApi.Controllers
         [HttpPost]
         public void fazRequisicao()
         {
-            Console.WriteLine("Oie");
+            Console.WriteLine("Oie post");
+        }
+
+        [HttpGet]
+        public void fazRequisicao2()
+        {
+            Console.WriteLine("Oie get");
         }
     }
 }
