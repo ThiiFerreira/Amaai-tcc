@@ -53,20 +53,26 @@ namespace WebAppMonitoramentoWebhook.Controllers
 
             var obj = JsonDocument.Parse(json.ToString());
 
-            var mensagem = "";
-            var telefone = obj.RootElement.GetProperty("entry")[0]
+            try
+            {
+                var telefone = obj.RootElement.GetProperty("entry")[0]
                         .GetProperty("changes")[0]
                         .GetProperty("value")
                         .GetProperty("contacts")[0]
                         .GetProperty("wa_id")
                         .ToString();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Falha ao identificar telefone");
+            }
 
             // bloco que captura se o botao finalizar tarefa foi apertado
             if (json.ToString().Contains("button_reply"))
             {
                 try
                 {
-                    mensagem = obj.RootElement.GetProperty("entry")[0]
+                    var mensagem = obj.RootElement.GetProperty("entry")[0]
                        .GetProperty("changes")[0]
                        .GetProperty("value")
                        .GetProperty("messages")[0]
