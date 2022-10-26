@@ -45,7 +45,7 @@ namespace WebAppMonitoramentoWebhook.Controllers
         [HttpPost("whatsapp")]
         public IActionResult PostEvent([FromBody] JsonElement json)
         {
-            imprime a notificação
+            //imprime a notificação
             _lastEvent = json;
             _logger.LogInformation($"{nameof(PostEvent)} | Notificação recebida: " +
                 JsonSerializer.Serialize(json,
