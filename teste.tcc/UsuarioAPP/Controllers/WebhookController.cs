@@ -45,11 +45,11 @@ namespace WebAppMonitoramentoWebhook.Controllers
         [HttpPost("whatsapp")]
         public IActionResult PostEvent([FromBody] JsonElement json)
         {
-            //imprime a notificação
-            //_lastEvent = json;
-            //_logger.LogInformation($"{nameof(PostEvent)} | Notificação recebida: " +
-            //    JsonSerializer.Serialize(json,
-            //        options: new() { WriteIndented = true }));
+            imprime a notificação
+            _lastEvent = json;
+            _logger.LogInformation($"{nameof(PostEvent)} | Notificação recebida: " +
+                JsonSerializer.Serialize(json,
+                    options: new() { WriteIndented = true }));
 
             var obj = JsonDocument.Parse(json.ToString());
             var mensagem = "";
@@ -85,7 +85,6 @@ namespace WebAppMonitoramentoWebhook.Controllers
                         var codigo = int.Parse(codigoStr);
 
                        // _mensagemWpp.enviarMensagemPedindoCodigoDaTarefa(telefone);
-                        _tarefaService.AtualizaTarefaParaFinalizada(codigo);
 
                         if (codigo is int)
                         {
@@ -105,6 +104,7 @@ namespace WebAppMonitoramentoWebhook.Controllers
             }
             else if (json.ToString().Contains("body"))
             {
+                Console.WriteLine("dentro do body");
                 try
                 {
                     //bloco que captura a mensagem com o codigo
@@ -130,7 +130,8 @@ namespace WebAppMonitoramentoWebhook.Controllers
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e.Message);
+                    _mensagemWpp.enviaMensagemDeErro(telefone);
+
                 }
             }
             else
