@@ -38,9 +38,8 @@ namespace WebAppMonitoramentoWebhook.Controllers
         [HttpGet("whatsapp")]
         public string GetLastEvent([FromQuery] object data)
         {
-            var teste = Request.Query["hub.challenge"];
-            System.Console.WriteLine(teste);
-            return teste;
+            var codigoDeRetorno = Request.Query["hub.challenge"];
+            return codigoDeRetorno;
         }
 
         [HttpPost("whatsapp")]
@@ -53,60 +52,74 @@ namespace WebAppMonitoramentoWebhook.Controllers
                     options: new() { WriteIndented = true }));
 
             var obj = JsonDocument.Parse(json.ToString());
-
             var mensagem = "";
-            var contato = "";
+            var telefone = obj.RootElement.GetProperty("entry")[0]
+                        .GetProperty("changes")[0]
+                        .GetProperty("value")
+                        .GetProperty("contacts")[0]
+                        .GetProperty("wa_id")
+                        .ToString();
 
-            // bloco que captura se o botao finalizar tarefa foi apertado
-            try
+
+            if (obj.ToString().Contains("button"))
             {
-                 mensagem = obj.RootElement.GetProperty("entry")[0]
-                    .GetProperty("changes")[0]
-                    .GetProperty("value")
-                    .GetProperty("messages")[0]
-                    .GetProperty("button")
-                    .GetProperty("text")
-                    .ToString();
-
-                contato = obj.RootElement.GetProperty("entry")[0]
-                    .GetProperty("changes")[0]
-                    .GetProperty("value")
-                    .GetProperty("contacts")[0]
-                    .GetProperty("wa_id")
-                    .ToString();
-
-                var subMensagem = mensagem.Substring(0, 9);
-
-                if (subMensagem == "Finalizar")
+                // bloco que captura se o botao finalizar tarefa foi apertado
+                try
                 {
-                    _mensagemWpp.enviarMensagemPedindoCodigoDaTarefa(contato);
+                    mensagem = obj.RootElement.GetProperty("entry")[0]
+                       .GetProperty("changes")[0]
+                       .GetProperty("value")
+                       .GetProperty("messages")[0]
+                       .GetProperty("button")
+                       .GetProperty("text")
+                       .ToString();
+
+
+                    if (mensagem.Contains("Finalizar"))
+                    {
+                        _mensagemWpp.enviarMensagemPedindoCodigoDaTarefa(telefone);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
                 }
             }
-            catch (Exception e)
+            else if (obj.ToString().Contains("body"))
             {
-                Console.WriteLine(e.Message);
-            }
+                try
+                {
+                    //bloco que captura a mensagem com o codigo
+                    var codigoStr = obj.RootElement.GetProperty("entry")[0]
+                        .GetProperty("changes")[0]
+                        .GetProperty("value")
+                        .GetProperty("messages")[0]
+                        .GetProperty("text")
+                        .GetProperty("body")
+                        .ToString();
+                    var codigo = int.Parse(codigoStr);
 
-            //bloco que captura a mensagem com o codigo
-            try
+                    if (codigo is int)
+                    {
+                        _tarefaService.AtualizaTarefaParaFinalizada(codigo);
+                    }
+                    else
+                    {
+                        _mensagemWpp.enviaMensagemDeErro(telefone);
+
+                    }
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+            else
             {
-                var codigoStr = obj.RootElement.GetProperty("entry")[0]
-                    .GetProperty("changes")[0]
-                    .GetProperty("value")
-                    .GetProperty("messages")[0]
-                    .GetProperty("text")
-                    .GetProperty("body")
-                    .ToString();
-                var codigo = int.Parse(codigoStr);
-
-                _tarefaService.AtualizaTarefaParaFinalizada(codigo);
-
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
-
+                //não foi possivel identificar a mensagem
+                _mensagemWpp.enviaMensagemDeErro(telefone);
+            }    
 
             return Ok();
         }

@@ -132,14 +132,14 @@ namespace UsuariosApi.Services
                 }
                 else
                 {
-                    Console.WriteLine($"Falha ao enviar mensagem");
+                    Console.WriteLine($"Falha ao enviar mensagem - local do erro : enviarMensagemPedindoCodigoDaTarefa");
 
                 }
             }
             catch (Exception e)
             {
 
-                Console.WriteLine($"Exececao ao enviar mensagem");
+                Console.WriteLine($"Exececao ao enviar mensagem - local do erro : enviarMensagemPedindoCodigoDaTarefa");
 
             }
         }
@@ -179,17 +179,56 @@ namespace UsuariosApi.Services
                 }
                 else
                 {
-                    Console.WriteLine($"Falha ao enviar mensagem");
+                    Console.WriteLine($"Falha ao enviar mensagem - local do erro : enviaFeedbackTarefaFinalizada");
 
                 }
             }
             catch (Exception e)
             {
 
-                Console.WriteLine($"Exececao ao enviar mensagem");
+                Console.WriteLine($"Exececao ao enviar mensagem - local do erro : enviaFeedbackTarefaFinalizada");
 
             }
         }
-    
+
+        public void enviaMensagemDeErro(string telefone)
+        {
+            WebRequest request = WebRequest.Create(url);
+            request.Method = "POST";
+            request.ContentType = "application/json; charset-UTF-8";
+
+            telefone = $"\"{telefone}\"";
+
+            request.Headers.Add("Authorization", $"Bearer {token}");
+
+            var json = "{ \"messaging_product\" : \"whatsapp\",\"to\":" + telefone + " ,\"type\": \"template\",\"template\": {\"name\": \"alerta_erro\",\"language\": {\"code\": \"pt_BR\"}}}";
+            var bytearray = Encoding.UTF8.GetBytes(json);
+            request.ContentLength = bytearray.Length;
+
+            Stream stream = request.GetRequestStream();
+            stream.Write(bytearray, 0, bytearray.Length);
+            stream.Close();
+
+            try
+            {
+                var response = (HttpWebResponse)request.GetResponse();
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    Console.WriteLine($"mensagema enviada");
+                }
+                else
+                {
+                    Console.WriteLine($"Falha ao enviar mensagem - local do erro: enviaMensagemDeErro");
+
+                }
+            }
+            catch (Exception e)
+            {
+
+                Console.WriteLine($"Exececao ao enviar mensagem -  local do erro: enviaMensagemDeErro");
+
+            }
+        }
+
     }
 }
