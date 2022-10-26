@@ -53,10 +53,13 @@ namespace WebAppMonitoramentoWebhook.Controllers
 
             var obj = JsonDocument.Parse(json.ToString());
             var telefone = "";
-           
 
+            if (json.ToString().Contains("user_initiated"))
+            {
+                Console.WriteLine("Iniciada pelo wpp");
+            }
             // bloco que captura se o botao finalizar tarefa foi apertado
-            if (json.ToString().Contains("button_reply"))
+            else if (json.ToString().Contains("button_reply"))
             {
                 try
                 {
@@ -83,10 +86,6 @@ namespace WebAppMonitoramentoWebhook.Controllers
                 {
                     Console.WriteLine(e.Message);
                 }
-            }
-            else if (json.ToString().Contains("contacts")!)
-            {
-                //implementar solução depois
             }
             else
             {
