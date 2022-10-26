@@ -46,10 +46,10 @@ namespace WebAppMonitoramentoWebhook.Controllers
         public IActionResult PostEvent([FromBody] JsonElement json)
         {
             //imprime a notificação
-            _lastEvent = json;
-            _logger.LogInformation($"{nameof(PostEvent)} | Notificação recebida: " +
-                JsonSerializer.Serialize(json,
-                    options: new() { WriteIndented = true }));
+            //_lastEvent = json;
+            //_logger.LogInformation($"{nameof(PostEvent)} | Notificação recebida: " +
+            //    JsonSerializer.Serialize(json,
+            //        options: new() { WriteIndented = true }));
 
             var obj = JsonDocument.Parse(json.ToString());
             var mensagem = "";
@@ -61,7 +61,7 @@ namespace WebAppMonitoramentoWebhook.Controllers
                         .ToString();
 
 
-            if (obj.ToString().Contains("button"))
+            if (json.ToString().Contains("button"))
             {
                 // bloco que captura se o botao finalizar tarefa foi apertado
                 try
@@ -74,10 +74,18 @@ namespace WebAppMonitoramentoWebhook.Controllers
                        .GetProperty("text")
                        .ToString();
 
+                    var subMensagem = mensagem.Substring(0, 9);
+                    Console.WriteLine(subMensagem);
 
-                    if (mensagem.Contains("Finalizar"))
+
+                    if (subMensagem == "Finalizar")
                     {
-                        _mensagemWpp.enviarMensagemPedindoCodigoDaTarefa(telefone);
+                        
+                        var codigoStr = mensagem.Substring(17,3);
+                        var codigo = int.Parse(codigoStr);
+
+                       // _mensagemWpp.enviarMensagemPedindoCodigoDaTarefa(telefone);
+                        _tarefaService.AtualizaTarefaParaFinalizada(codigo);
                     }
                 }
                 catch (Exception e)
@@ -85,7 +93,7 @@ namespace WebAppMonitoramentoWebhook.Controllers
                     Console.WriteLine(e.Message);
                 }
             }
-            else if (obj.ToString().Contains("body"))
+            else if (json.ToString().Contains("body"))
             {
                 try
                 {
