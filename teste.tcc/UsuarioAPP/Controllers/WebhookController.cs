@@ -98,7 +98,8 @@ namespace WebAppMonitoramentoWebhook.Controllers
             }
             else
             {
-                _mensagemWpp.enviaMensagemDeErro(telefone);
+                if(telefone!="")
+                    _mensagemWpp.enviaMensagemDeErro(telefone);
             }
 
             return Ok();
