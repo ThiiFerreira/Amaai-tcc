@@ -86,6 +86,16 @@ namespace WebAppMonitoramentoWebhook.Controllers
 
                        // _mensagemWpp.enviarMensagemPedindoCodigoDaTarefa(telefone);
                         _tarefaService.AtualizaTarefaParaFinalizada(codigo);
+
+                        if (codigo is int)
+                        {
+                            _tarefaService.AtualizaTarefaParaFinalizada(codigo);
+                        }
+                        else
+                        {
+                            _mensagemWpp.enviaMensagemDeErro(telefone);
+
+                        }
                     }
                 }
                 catch (Exception e)
