@@ -52,10 +52,10 @@ namespace WebAppMonitoramentoWebhook.Controllers
             //        options: new() { WriteIndented = true }));
 
             var obj = JsonDocument.Parse(json.ToString());
-
+            var telefone = "";
             try
             {
-                var telefone = obj.RootElement.GetProperty("entry")[0]
+                telefone = obj.RootElement.GetProperty("entry")[0]
                         .GetProperty("changes")[0]
                         .GetProperty("value")
                         .GetProperty("contacts")[0]
