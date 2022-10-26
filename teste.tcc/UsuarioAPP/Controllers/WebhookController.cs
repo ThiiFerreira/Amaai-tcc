@@ -53,19 +53,7 @@ namespace WebAppMonitoramentoWebhook.Controllers
 
             var obj = JsonDocument.Parse(json.ToString());
             var telefone = "";
-            try
-            {
-                telefone = obj.RootElement.GetProperty("entry")[0]
-                        .GetProperty("changes")[0]
-                        .GetProperty("value")
-                        .GetProperty("contacts")[0]
-                        .GetProperty("wa_id")
-                        .ToString();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Falha ao identificar telefone");
-            }
+           
 
             // bloco que captura se o botao finalizar tarefa foi apertado
             if (json.ToString().Contains("button_reply"))
@@ -96,9 +84,26 @@ namespace WebAppMonitoramentoWebhook.Controllers
                     Console.WriteLine(e.Message);
                 }
             }
+            else if (json.ToString().Contains("contacts")!)
+            {
+                //implementar solução depois
+            }
             else
             {
-                if(telefone!="")
+                try
+                {
+                    telefone = obj.RootElement.GetProperty("entry")[0]
+                            .GetProperty("changes")[0]
+                            .GetProperty("value")
+                            .GetProperty("contacts")[0]
+                            .GetProperty("wa_id")
+                            .ToString();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Falha ao identificar telefone");
+                }
+                if (telefone!="")
                     _mensagemWpp.enviaMensagemDeErro(telefone);
             }
 
