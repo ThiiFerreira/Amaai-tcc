@@ -150,16 +150,19 @@ namespace UsuariosApi.Services
             request.Method = "POST";
             request.ContentType = "application/json; charset-UTF-8";
 
+            var hora = DateTime.UtcNow.AddHours(-3).ToString("HH:mm");
+            var dia = DateTime.UtcNow.AddHours(-3).ToString("dd/MM/yyyy");
 
 
             string titulo = $"\"{tarefa.Titulo}\"";
             string nome = $"\"{nomeAssistido}\"";
-
             telefone = $"\"{55 + telefone}\"";
+            hora = $"\"{hora}\"";
+            dia = $"\"{dia}\"";
 
             request.Headers.Add("Authorization", $"Bearer {token}");
 
-            var json = "{ \"messaging_product\": \"whatsapp\", \"to\":" + telefone + " , \"type\": \"template\", \"template\": { \"name\": \"feedback_finalizacao_mensagem\", \"language\": { \"code\": \"pt_BR\" }, \"components\": [{ \"type\": \"body\", \"parameters\": [{ \"type\": \"text\", \"text\": " + nome + " }, { \"type\": \"text\", \"text\": " + titulo + " }, { \"type\": \"text\", \"text\": 00 }, { \"type\": \"text\", \"text\": 00 } ] }]} }";
+            var json = "{ \"messaging_product\": \"whatsapp\", \"to\":" + telefone + " , \"type\": \"template\", \"template\": { \"name\": \"feedback_finalizacao_mensagem\", \"language\": { \"code\": \"pt_BR\" }, \"components\": [{ \"type\": \"body\", \"parameters\": [{ \"type\": \"text\", \"text\": " + nome + " }, { \"type\": \"text\", \"text\": " + titulo + " }, { \"type\": \"text\", \"text\":" + hora + "}, { \"type\": \"text\", \"text\":" + dia + "} ] }]} }";
             var bytearray = Encoding.UTF8.GetBytes(json);
             request.ContentLength = bytearray.Length;
 
