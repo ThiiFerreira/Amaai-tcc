@@ -163,7 +163,8 @@ namespace UsuariosApi.Services
             request.Headers.Add("Authorization", $"Bearer {token}");
 
             var json = "{ \"messaging_product\": \"whatsapp\", \"to\":" + telefone + " , \"type\": \"template\", \"template\": { \"name\": \"feedback_finalizacao_mensagem\", \"language\": { \"code\": \"pt_BR\" }, \"components\": [{ \"type\": \"body\", \"parameters\": [{ \"type\": \"text\", \"text\": " + nome + " }, { \"type\": \"text\", \"text\": " + titulo + " }, { \"type\": \"text\", \"text\":" + hora + "}, { \"type\": \"text\", \"text\":" + dia + "} ] }]} }";
-            var bytearray = Encoding.UTF8.GetBytes(json);
+            var json2 = "{ \"messaging_product\": \"whatsapp\", \"to\":" + telefone +  ", \"type\": \"interactive\", \"interactive\": { \"type\": \"button\", \"body\": { \"text\": \"Olá " + nomeAssistido + ", chegou a hora de realizar a terefa " + tarefa.Titulo + ", que está marcada para ser realizada agora, por favor não deixe para depois\" }, \"action\": { \"buttons\": [ { \"type\": \"reply\", \"reply\": { \"id\": \"unique - postback - id\", \"title\": \"Finalizar tarefa-"+tarefa.Id+"\" } } ] } } }";
+            var bytearray = Encoding.UTF8.GetBytes(json2);
             request.ContentLength = bytearray.Length;
 
             Stream stream = request.GetRequestStream();
