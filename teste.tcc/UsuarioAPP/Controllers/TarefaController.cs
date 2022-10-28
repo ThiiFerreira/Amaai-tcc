@@ -76,6 +76,20 @@ namespace UsuariosApi.Controllers
             return Ok(listTarefa);
         }
 
+        [HttpGet("excluidas")]
+        [Authorize(Roles = "responsavel, idoso")]
+        public IActionResult RecuperaTarefasExcluidas()
+        {
+            string token = Request.Headers["Authorization"];
+            string subToken = token.Substring(7);
+            var usuarioId = new HelpersUsuario().RetornarIdUsuario(subToken);
+
+            //List<ReadTarefaDto> listTarefa = _tarefaServiceArray.RecuperaTarefa();
+            var listTarefa = _tarefaService.RecuperaTarefasExcluidas(usuarioId);
+            if (listTarefa == null) return NotFound();
+            return Ok(listTarefa);
+        }
+
         [HttpPut("{id}")]
         [Authorize(Roles = "responsavel")]
         public IActionResult AtualizaTarefa(int id, [FromBody] CreateTarefaDto createTarefaDto)

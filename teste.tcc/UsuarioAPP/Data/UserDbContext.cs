@@ -54,6 +54,7 @@ namespace UsuariosApi.Data
         public DbSet<Usuario> Usuario { get; set; }
         public DbSet<UsuarioAssistido> UsuarioAssistido { get; set; }
         public DbSet<Tarefa> Tarefa { get; set; }
+        public DbSet<TarefaExcluida> Tarefa_Excluida { get; set; }
 
 
     }

@@ -94,6 +94,18 @@ namespace UsuariosApi.Services
             return null;
         }
 
+        public List<ReadTarefaExcluidaDto> RecuperaTarefasExcluidas(int usuarioId)
+        {
+            List<TarefaExcluida> list = _context.Tarefa_Excluida.Where(tarefa => (tarefa.IdosoId == usuarioId || tarefa.ResponsavelId == usuarioId)).ToList();
+            var listOrdenada = list.OrderByDescending(x => x.DataExclusao);
+
+            if (list != null)
+            {
+                return _mapper.Map<List<ReadTarefaExcluidaDto>>(listOrdenada);
+            }
+            return null;
+        }
+
         public Result AtualizaTarefa(int id, CreateTarefaDto createTarefaDto, int usuarioId)
         {
             Tarefa tarefa = _context.Tarefa.FirstOrDefault(tarefa => tarefa.Id == id && (tarefa.IdosoId == usuarioId || tarefa.ResponsavelId == usuarioId));
@@ -136,6 +148,10 @@ namespace UsuariosApi.Services
                 return Result.Fail("Tarefa não encontrado");
             }
 
+            var tarefaExcluida = _mapper.Map<TarefaExcluida>(tarefa);
+            tarefaExcluida.DataExclusao = DateTime.UtcNow.AddHours(-3).ToString("dd/MM/yyyy");
+
+            _context.Tarefa_Excluida.Add(tarefaExcluida);
             _context.Tarefa.Remove(tarefa);
             _context.SaveChanges();
             return Result.Ok();
