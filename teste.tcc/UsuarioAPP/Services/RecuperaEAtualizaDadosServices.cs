@@ -224,9 +224,13 @@ namespace UsuariosApi.Services
 
             }
 
+            var user = _context.Users.FirstOrDefault(x => x.Id == assistido.Id);
+
+
 
             usuario.IdIdoso = null;
             _context.UsuarioAssistido.Remove(assistido);
+            _context.Users.Remove(user);
 
             _context.SaveChanges();
             return Result.Ok();

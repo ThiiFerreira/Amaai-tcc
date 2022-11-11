@@ -85,7 +85,7 @@ namespace UsuariosApi.Services
         public List<ReadTarefaDto> RecuperaTarefasFinalizadas(int usuarioId)
         {
             List<Tarefa> list = _context.Tarefa.Where(tarefa => (tarefa.IdosoId == usuarioId || tarefa.ResponsavelId == usuarioId) && tarefa.Finalizada == true).ToList();
-            var listOrdenada = list.OrderByDescending(x => x.DataFinalizacao);
+            var listOrdenada = list.OrderByDescending(x => DateTime.Parse(x.DataFinalizacao.ToString())).ThenBy(x => x.Titulo);
 
             if (list != null)
             {
@@ -97,7 +97,7 @@ namespace UsuariosApi.Services
         public List<ReadTarefaExcluidaDto> RecuperaTarefasExcluidas(int usuarioId)
         {
             List<TarefaExcluida> list = _context.Tarefa_Excluida.Where(tarefa => (tarefa.IdosoId == usuarioId || tarefa.ResponsavelId == usuarioId)).ToList();
-            var listOrdenada = list.OrderByDescending(x => x.DataExclusao);
+            var listOrdenada = list.OrderByDescending(x => DateTime.Parse(x.DataExclusao.ToString())).ThenBy(x => x.Titulo);
 
             if (list != null)
             {
