@@ -35,6 +35,19 @@ namespace UsuariosApi.Controllers
             if (usuario == null) return NotFound("Falha ao carregar dados");
             return Ok(usuario);
         }
+        [HttpGet("responsavel/assistido")]
+        [Authorize(Roles = "responsavel")]
+
+        public bool RecuperaAssistidoUsuarioPorId()
+        {
+            string token = Request.Headers["Authorization"];
+            string subToken = token.Substring(7);
+            var usuarioId = new HelpersUsuario().RetornarIdUsuario(subToken);
+            var temAssistido = _service.RecuperaAssistidoUsuarioPorId(usuarioId);
+            
+            return temAssistido;
+        }
+
 
         [HttpGet("assistido")]
         [Authorize(Roles = "responsavel")]

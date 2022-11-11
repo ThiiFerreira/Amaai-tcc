@@ -55,6 +55,18 @@ namespace UsuariosApi.Services
             return null;
         }
 
+        public bool RecuperaAssistidoUsuarioPorId(int usuarioId)
+        {
+            var usuarioAssistido = _context.UsuarioAssistido.FirstOrDefault(usuario => usuario.ResponsavelId == usuarioId);
+
+            if (usuarioAssistido != null)
+            {
+                return true;
+            }
+            
+            return false;
+        }
+
         public Result AtualizaDadosResponsavel(UpdateUsuarioDto usuarioDto, int id)
         {
             var user = _context.Users.FirstOrDefault(usuario => usuario.Id == id);
