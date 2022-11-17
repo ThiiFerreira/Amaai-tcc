@@ -14,7 +14,7 @@ namespace UsuariosApi.Services
     public class MensagemWpp
     {
         private string token = "EAAHBE9UHYEgBAKZAi9JOPKJIHGelWjZCWNgO974AkIm6SWBMUH68ZC96KD20lBqZC3cZBsCRrMjI2X5cyV9deYJMNmZCzjy54XZAyPvGyCKRHm1Y4WzOHK8coojowkY105GXYfn8QODJ1eFtZCDPxAmLPr1lMjgI4JZBD6ouZC2JoAFGq5D8beyiRZCLdSK3L3W3ttBFqbxFtxWBwZDZD";
-        private string url = "https://graph.facebook.com/v14.0/105984795618762/messages";
+        private string url = "https://graph.facebook.com/v15.0/100559432839140/messages";
         private UserDbContext _context;
 
         public MensagemWpp(UserDbContext context)
