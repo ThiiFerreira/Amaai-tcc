@@ -39,7 +39,7 @@ namespace UsuariosApi.Services
                 client.Connect("smtp.gmail.com",465, true);
                 client.AuthenticationMechanisms.Remove("XOUATH2");
                 client.Authenticate("equipeamaai@gmail.com",
-                    "ajxmhbglhxwpecln");
+                    "senha");
                 client.Send(mensagemDeEmail);
             }
             catch { throw; }
